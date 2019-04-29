@@ -10,8 +10,8 @@ public class CombatAbility extends MarsAbility {
         super(name);
     }
 
-    public Map resolveHit(State state) {
-	return new HashMap();
+    public Map<String, Object> resolveHit(State state) { //BCIT Map<String,Object>
+	return new HashMap<String, Object>(); //BCIT Map<String,Object>
     }
 
     public MarsEffect getActivationEffect() { return activationEffect; }
@@ -25,7 +25,7 @@ public class CombatAbility extends MarsAbility {
         CombatPlugin.addAttacker(state.getTarget().getOid(), state.getObject().getOid());
         state.getObject().setCombatState(true);        
         
-	Map params = resolveHit(state);
+	Map<String, Object> params = resolveHit(state); //BCIT Map<String,Object>
 	Log.debug("CombatAbility.completeActivation: params=" + params);
         MarsEffect.applyEffect(activationEffect, state.getObject(), state.getTarget(), params);
     }

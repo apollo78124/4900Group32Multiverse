@@ -5,6 +5,11 @@ import multiverse.server.engine.*;
 import java.util.*;
 
 abstract public class MarsQuest extends Entity {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public MarsQuest() {
         super();
         // For now, put establish the quest oid in this constructor.
