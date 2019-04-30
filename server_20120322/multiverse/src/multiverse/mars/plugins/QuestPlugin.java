@@ -213,7 +213,7 @@ public class QuestPlugin extends EnginePlugin {
         props.put("title", questTitle);
         props.put("description", questDesc);
         props.put("objective", questObjective);
-        LinkedList<LinkedList> rewardList = new LinkedList<LinkedList>();
+        LinkedList<LinkedList<Object>> rewardList = new LinkedList<LinkedList<Object>>(); //BCIT LinkedList<LinkedList<Object>>
         for (String rewardName : itemRewards) {
             LinkedList<Object> reward = new LinkedList<Object>();
             reward.add(rewardName);
@@ -239,7 +239,7 @@ public class QuestPlugin extends EnginePlugin {
         props.put("description", questDesc);
         props.put("objective", questObjective);
         props.put("questOid", questOid);
-        LinkedList<LinkedList> rewardList = new LinkedList<LinkedList>();
+        LinkedList<LinkedList<Object>> rewardList = new LinkedList<LinkedList<Object>>();
         for (String rewardName : itemRewards) {
             LinkedList<Object> reward = new LinkedList<Object>();
             reward.add(rewardName);

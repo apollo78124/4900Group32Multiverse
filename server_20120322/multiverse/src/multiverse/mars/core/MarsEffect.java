@@ -80,7 +80,7 @@ public class MarsEffect {
     public void isPersistent(boolean b) { persistent = b; }
     private boolean persistent = false;
 
-    protected EffectState generateState(CombatInfo caster, CombatInfo obj, Map params) {
+    protected EffectState generateState(CombatInfo caster, CombatInfo obj, Map<String, Object> params) { //BCIT Map<String,Object>
         return new EffectState(this, caster, obj, params);
     }
 
@@ -88,7 +88,7 @@ public class MarsEffect {
 	return applyEffect(effect, caster, obj, null);
     }
 
-    public static EffectState applyEffect(MarsEffect effect, CombatInfo caster, CombatInfo obj, Map params) {
+    public static EffectState applyEffect(MarsEffect effect, CombatInfo caster, CombatInfo obj, Map<String, Object> params) { //BCIT Map<String,Object>
         Lock lock = obj.getLock();
         lock.lock();
         try {
@@ -137,7 +137,7 @@ public class MarsEffect {
         public EffectState() {
         }
 
-        public EffectState(MarsEffect effect, CombatInfo caster, CombatInfo obj, Map params) {
+        public EffectState(MarsEffect effect, CombatInfo caster, CombatInfo obj, Map<String, Object> params) { //BCIT Map<String,Object>
             this.effect = effect;
             this.effectName = effect.getName();
             this.casterOid = caster.getOid();
@@ -212,9 +212,9 @@ public class MarsEffect {
         public void isActive(boolean active) { this.active = active; }
         protected boolean active = true;
 
-	public Map getParams() { return params; }
-	public void setParams(Map params) { this.params = params; }
-	protected Map params = null;
+	public Map<String, Object> getParams() { return params; } //BCIT Map<String,Object>
+	public void setParams(Map<String, Object> params) { this.params = params; } //BCIT Map<String,Object>
+	protected Map<String, Object> params = null; //BCIT Map<String,Object>
 
         private static final long serialVersionUID = 1L;
     }

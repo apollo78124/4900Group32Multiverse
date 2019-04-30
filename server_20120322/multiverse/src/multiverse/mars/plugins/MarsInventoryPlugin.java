@@ -499,8 +499,8 @@ public class MarsInventoryPlugin extends InventoryPlugin implements MessageCallb
     public static void sendTradeOfferUpdate(Long trader1, Long trader2, TradeSession tradeSession) {
         Boolean accepted1 = tradeSession.getAccepted(trader1);
         Boolean accepted2 = tradeSession.getAccepted(trader2);
-        LinkedList<LinkedList> offer1 = sendTradeOfferUpdateHelper(trader1, tradeSession);
-        LinkedList<LinkedList> offer2 = sendTradeOfferUpdateHelper(trader2, tradeSession);
+        LinkedList<LinkedList<Object>> offer1 = sendTradeOfferUpdateHelper(trader1, tradeSession); //BCIT LinkedList<LinkedList<Object>>
+        LinkedList<LinkedList<Object>> offer2 = sendTradeOfferUpdateHelper(trader2, tradeSession); //BCIT LinkedList<LinkedList<Object>>
 
         Map<String, Serializable> props = new HashMap<String, Serializable>();
         props.put("ext_msg_subtype", "mv.TRADE_OFFER_UPDATE");
@@ -513,23 +513,23 @@ public class MarsInventoryPlugin extends InventoryPlugin implements MessageCallb
 	Engine.getAgent().sendBroadcast(msg);
     }
 
-    protected static LinkedList<LinkedList> sendTradeOfferUpdateHelper(Long traderOid, TradeSession tradeSession) {
-        LinkedList<LinkedList> offer = new LinkedList<LinkedList>();
-	for (Long itemOid : tradeSession.getOffer(traderOid)) {
-	    LinkedList<Object> info = new LinkedList<Object>();
-	    if ((itemOid == null) || itemOid.equals(OIDManager.invalidOid)) {
-                info.add(OIDManager.invalidOid);
-                info.add("");
-                info.add("");
-	    }
-	    else {
-		MarsItem item = getMarsItem(itemOid);
-                info.add(itemOid);
-                info.add(item.getName());
-                info.add(item.getIcon());
-	    }
-	    offer.add(info);
-	}
+    protected static LinkedList<LinkedList<Object>> sendTradeOfferUpdateHelper(Long traderOid, TradeSession tradeSession) { //BCIT LinkedList<LinkedList<Object>>
+        LinkedList<LinkedList<Object>> offer = new LinkedList<LinkedList<Object>>(); //BCIT LinkedList<LinkedList<Object>>
+    	for (Long itemOid : tradeSession.getOffer(traderOid)) {
+    	    LinkedList<Object> info = new LinkedList<Object>();
+    	    if ((itemOid == null) || itemOid.equals(OIDManager.invalidOid)) {
+                    info.add(OIDManager.invalidOid);
+                    info.add("");
+                    info.add("");
+    	    }
+    	    else {
+    		MarsItem item = getMarsItem(itemOid);
+                    info.add(itemOid);
+                    info.add(item.getName());
+                    info.add(item.getIcon());
+    	    }
+    	    offer.add(info);
+    	}
         return offer;
     }
 
