@@ -17,4 +17,5 @@
 #5. Run mysql inside the docker container
 #	'''mysql -u root -p'''
 #6. Run the initial SQL queries stored inside the /mvjserver/install.sql and /mvjserver/master.sql
+#
 	
