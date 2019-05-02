@@ -1,0 +1,4 @@
+Silverlight version will be served by /mvs provided the older amazon server at 54.214.242.3 is running.
+/mvs actually redirect request to http://boudicca.azurewebsites.net/MVClient/LaunchGame?user=reggie&pass=magnetar where
+Silverlight C# client connect to 54.214.242.3 ( hard code in C# source ). To make this run again, the C# client need to
+update this IP to apps.magnetar.net.
