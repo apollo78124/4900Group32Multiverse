@@ -1,0 +1,20 @@
+version: 2
+jobs:
+  build:
+    branches:
+      only:
+        - master
+    docker:
+      - image: circleci/node:8.11-browsers
+    steps:
+      - checkout
+      - run:
+          name: Add remote URL
+          command: git remote add dokku dokku@do.magnetar.net:mvjserver
+      - run:
+          name: Add to known host list
+          command: ssh-keyscan -H do.magnetar.net >> ~/.ssh/known_hosts
+      - run:
+          name: Push dev branch to build server
+          command: git push dokku master
+
