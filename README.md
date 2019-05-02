@@ -1,6 +1,6 @@
 # 4900Group32Multiverse
 
-###Deploy Local Dockerized MySQL Server###
+#Deploy Local Dockerized MySQL Server
 #1. Install Docker
 #2. Create the docker container named mysqld on CMD
 #	Run this command inside /mvjserver/
