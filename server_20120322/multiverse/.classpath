@@ -6,8 +6,8 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="dist/lib/multiverse.jar"/>
-	<classpathentry kind="lib" path="dist/lib/mars.jar"/>
 	<classpathentry kind="lib" path="dist/lib/injected.jar"/>
+	<classpathentry kind="lib" path="dist/lib/mars.jar"/>
+	<classpathentry kind="lib" path="dist/lib/multiverse.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
