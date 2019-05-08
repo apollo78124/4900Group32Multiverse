@@ -18,7 +18,7 @@ Execute the sql script in current directory named install.sql
 
 ## Run directly from docker without dokku
 If one wants to run the container directly from docker. Build the container with   
-```docker builkd -t . [container name]```   
+```docker build -t . [container name]```   
 then run the container with the following options to address port mapping.  
 
 *#Specify link to mysql database container*  
@@ -29,8 +29,7 @@ then run the container with the following options to address port mapping.
 
 Enter  
 ```  
-docker run -d --link mysql -p 943:943 -p 4505:4505 -p 9005:4505 -p 4510:4510 -p 5040:4510
--p 4520:4520 -p 5050:4520 -p 5040:4510/udp -p 5050:4520/udp -p 9010:9010/udp
+docker run -d -link mysql -p 943:943 -p 4505:4505 -p 9005:4505 -p 4510:4510 -p 5040:4510 -p 4520:4520 -p 5050:4520 -p 5040:4510/udp -p 5050:4520/udp -p 9010:9010/udp
 ```  
 
 ## Disable zero-Downtime check of DOKKU

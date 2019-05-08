@@ -7,9 +7,10 @@ RUN apt-get -y install libmysql-java
 
 WORKDIR /root
 # Download multiverse server source
-RUN wget http://sourceforge.net/projects/multiverse3d/files/server_20120322.zip/download
-RUN mv download server_20120322.zip
-RUN unzip server_20120322.zip && mv multiverse /usr
+# RUN wget http://sourceforge.net/projects/multiverse3d/files/server_20120322.zip/download
+# RUN mv download server_20120322.zip
+ADD server_20120322.zip /usr
+RUN unzip /usr/server_20120322.zip && mv multiverse /usr
 # Silverlight Polict Server
 COPY PolicyFile.xml /usr/multiverse/bin/
 COPY PolicyServer.exe /usr/multiverse/bin/
