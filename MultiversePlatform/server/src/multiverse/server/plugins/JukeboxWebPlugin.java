@@ -53,37 +53,37 @@ public class JukeboxWebPlugin extends EnginePlugin {
     public void onActivate() {
     }
 
-    public ArrayList getTracks() {
-	GenericMessage msg = new GenericMessage();
-	MessageType jukeboxGetTracks = MessageType.intern("jukeboxGetTracks");
-	msg.setMsgType(jukeboxGetTracks);
-	GenericResponseMessage respMsg;
-        respMsg = (GenericResponseMessage) Engine.getAgent().sendRPC(msg);
-
-	// get a response message
-	PyList trackData = (PyList) respMsg.getData();
-
-	ArrayList<HashMap<String,String>> trackList = new ArrayList<HashMap<String,String>>();
-
-	for (int j = trackData.__len__(); j-- > 0;) {
-	    PyDictionary trackInfo = (PyDictionary)trackData.__getitem__(j);
-	    PyList list = trackInfo.items();
-	    HashMap<String, String> trackMap = new HashMap<String, String>();
-	    for (int i = list.__len__(); i-- > 0;) {
-		PyTuple tup = (PyTuple)list.__getitem__(i);
-		trackMap.put(tup.__getitem__(0).__str__().internedString(),
-			     tup.__getitem__(1).__str__().internedString());
-	    }
-	    trackList.add(trackMap);
-	}
-	
-	// print out the list
-	// Log.debug("InputThread: LIST START ----------");
-	//for (HashMap trackInfo : trackData) {
-	// Log.debug("InputThread: trackInfo='" + trackInfo + "'");
-	// }
-	// Log.debug("InputThread: LIST DONE ----------");
-	return trackList;
+    public ArrayList<HashMap<String,String>> getTracks() { //BCIT Change ArrayList<HashMap<String, String>>
+    	GenericMessage msg = new GenericMessage();
+    	MessageType jukeboxGetTracks = MessageType.intern("jukeboxGetTracks");
+    	msg.setMsgType(jukeboxGetTracks);
+    	GenericResponseMessage respMsg;
+            respMsg = (GenericResponseMessage) Engine.getAgent().sendRPC(msg);
+    
+    	// get a response message
+    	PyList trackData = (PyList) respMsg.getData();
+    
+    	ArrayList<HashMap<String,String>> trackList = new ArrayList<HashMap<String,String>>();
+    
+    	for (int j = trackData.__len__(); j-- > 0;) {
+        	    PyDictionary trackInfo = (PyDictionary)trackData.__getitem__(j);
+        	    PyList list = trackInfo.items();
+        	    HashMap<String, String> trackMap = new HashMap<String, String>();
+        	    for (int i = list.__len__(); i-- > 0;) {
+        		PyTuple tup = (PyTuple)list.__getitem__(i);
+        		trackMap.put(tup.__getitem__(0).__str__().internedString(),
+        			     tup.__getitem__(1).__str__().internedString());
+    	    }
+    	    trackList.add(trackMap);
+    	}
+    	
+    	// print out the list
+    	// Log.debug("InputThread: LIST START ----------");
+    	//for (HashMap trackInfo : trackData) {
+    	// Log.debug("InputThread: trackInfo='" + trackInfo + "'");
+    	// }
+    	// Log.debug("InputThread: LIST DONE ----------");
+    	return trackList;
     }
 
     public boolean addTrack(String name, String type, String url, String cost, String description) {

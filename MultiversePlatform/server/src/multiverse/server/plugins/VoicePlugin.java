@@ -38,6 +38,7 @@ import multiverse.server.objects.*;
 import multiverse.server.math.Point;
 import multiverse.server.network.*;
 import multiverse.server.util.*;
+import multiverse.server.util.Base64;
 import multiverse.server.voice.*;
 import multiverse.msgsys.*;
 import multiverse.management.Management;

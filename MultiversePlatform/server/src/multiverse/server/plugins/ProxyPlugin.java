@@ -43,6 +43,7 @@ import multiverse.server.messages.PropertyMessage;
 import multiverse.server.messages.LoginMessage;
 import multiverse.server.messages.LogoutMessage;
 import multiverse.server.util.*;
+import multiverse.server.util.Base64;
 import multiverse.server.network.*;
 import multiverse.server.network.rdp.*;
 import multiverse.server.math.*;
@@ -694,10 +695,10 @@ public class ProxyPlugin extends EnginePlugin
      * messages for the same player have already been processed, it
      * calls the doWork method.
      */
-    class MessageCallback implements SQCallback {
-	public MessageCallback(ProxyPlugin proxyPlugin) {
-	    this.proxyPlugin = proxyPlugin;
-	}
+    class MessageCallback implements SQCallback<Object, Object> { //BCIT Change SQCallback<Object, Object>
+    	public MessageCallback(ProxyPlugin proxyPlugin) {
+    	    this.proxyPlugin = proxyPlugin;
+    	}
 	/**
          * doWork "executes" the message, which originated in some
          * other plugin, on behalf the player by running any message
@@ -833,7 +834,7 @@ public class ProxyPlugin extends EnginePlugin
     /**
      * The callback called by the SquareQueue holding messages from clients.
      */
-    public class EventCallback implements SQCallback {
+    public class EventCallback implements SQCallback<Object, Object> { //BCIT Change SQCallback<Object,Object>
         /*
          * doWork "executes" a message from a client.  After some
          * special-case code used only during login or connection
