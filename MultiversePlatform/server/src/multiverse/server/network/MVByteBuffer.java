@@ -485,10 +485,10 @@ public class MVByteBuffer implements Cloneable, Comparable<MVByteBuffer> {
     private static final byte valueTypeByteArray = 23;
     private static final byte valueTypeTreeMap = 24;
     
-    private static Map<Class, Byte> classToValueTypeMap = null;
+    private static Map<Class<? extends Serializable>, Byte> classToValueTypeMap = null;
 
     private static void initializeClassToValueTypeMap() {
-        classToValueTypeMap = new HashMap<Class, Byte>();
+        classToValueTypeMap = new HashMap<Class<? extends Serializable>, Byte>();
         classToValueTypeMap.put(String.class, valueTypeString);
         classToValueTypeMap.put(Long.class, valueTypeLong);
         classToValueTypeMap.put(Integer.class, valueTypeInteger);
@@ -512,13 +512,14 @@ public class MVByteBuffer implements Cloneable, Comparable<MVByteBuffer> {
         classToValueTypeMap.put(TreeMap.class, valueTypeTreeMap);
     }
     
-    public void putEncodedObject(Serializable val) {
+    @SuppressWarnings("unchecked")
+	public void putEncodedObject(Serializable val) {
         if (classToValueTypeMap == null)
             initializeClassToValueTypeMap();
         if (val == null)
             putByte(valueTypeNull);
         else {
-            Class c = val.getClass();
+            Class<? extends Serializable> c = val.getClass();
             Byte index = classToValueTypeMap.get(c);
             if (index == null)
                 throw new MVRuntimeException("MVByteBuffer.putEncodedObject: no support for object of class " + val.getClass());
@@ -581,7 +582,7 @@ public class MVByteBuffer implements Cloneable, Comparable<MVByteBuffer> {
                 break;
             case valueTypeHashSet:
                 putByte(valueTypeHashSet);
-                HashSet set = (HashSet)val;
+                HashSet<Serializable> set = (HashSet<Serializable>)val;
                 putInt(set.size());
                 for (Object obj : set) {
                     // Recurse

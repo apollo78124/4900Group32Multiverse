@@ -150,7 +150,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         // generation code
         for (MarshallingPair entry : sortedList) {
             String name = entry.getClassKey();
-            Class c = lookupClass(name);
+            Class<?> c = lookupClass(name);
             Short n = entry.getTypeNum();
             int flagBitCount = 0;
             LinkedList<Field> fields = getValidClassFields(c);
@@ -159,7 +159,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
             int index = -1;
             for (Field f : fields) {
                 index++;
-                Class fieldType = getFieldType(f);
+                Class<?> fieldType = getFieldType(f);
                 // Primitive types don't require flag bits
                 if (typeIsPrimitive(fieldType))
                     continue;
@@ -215,7 +215,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         }
     }
 
-    public static class MarshallingPair implements Comparator {
+    public static class MarshallingPair implements Comparator<Object> {
         public MarshallingPair(String className, Short typeNum) {
             this.className = className;
             this.typeNum = typeNum;
@@ -248,28 +248,30 @@ public class MarshallingGenerator extends MarshallingRuntime {
         // Verify that every type for which we need to generate code
         // is in the maps.  Do it in a goofy, unordered way, since it
         // doesn't actually matter.
-        Map<Class, LinkedList<Class>> missingTypes = new HashMap<Class, LinkedList<Class>>();
+        @SuppressWarnings("rawtypes")
+		Map<Class, LinkedList<Class>> missingTypes = new HashMap<Class, LinkedList<Class>>();
         for (Map.Entry<String, ClassProperties> entry : classToClassProperties.entrySet()) {
             String className = entry.getKey();
-            Class c = lookupClass(className);
+            Class<?> c = lookupClass(className);
             Short n = entry.getValue().typeNum;
             if (marshalledTypeNum(n)) {
-                Class superclass = getValidSuperclass(c);
+                Class<?> superclass = getValidSuperclass(c);
                 if (superclass != null)
                     checkClassPresent(c, superclass, missingTypes);
                 LinkedList<Field> fields = getValidClassFields(c);
                 for (Field f : fields) {
-                    Class fieldType = getFieldType(f);
+                    Class<?> fieldType = getFieldType(f);
                     checkClassPresent(c, fieldType, missingTypes);
                 }
             }
         }
         if (missingTypes.size() > 0) {
-            for (Map.Entry<Class, LinkedList<Class>> entry : missingTypes.entrySet()) {
-                Class c = entry.getKey();
-                LinkedList<Class> refs = entry.getValue();
+            for (@SuppressWarnings("rawtypes") Map.Entry<Class, LinkedList<Class>> entry : missingTypes.entrySet()) {
+                Class<?> c = entry.getKey();
+                @SuppressWarnings("rawtypes")
+				LinkedList<Class> refs = entry.getValue();
                 String s = "";
-                for (Class ref : refs) {
+                for (Class<?> ref : refs) {
                     if (s != "")
                         s += ", ";
                     s += "'" + getSimpleClassName(ref) + "'";
@@ -284,22 +286,22 @@ public class MarshallingGenerator extends MarshallingRuntime {
     }
 
     protected static boolean supportsMarshallable(String className) {
-        Class c = lookupClass(className);
-        for (Class iface : c.getInterfaces()) {
+        Class<?> c = lookupClass(className);
+        for (Class<?> iface : c.getInterfaces()) {
             if (iface.getSimpleName().equals("Marshallable"))
                 return true;
         }
         return false;
     }
 
-    protected static void generateToBytesMarshalling(Class c, int n, FileWriter str, int indent, LinkedList<Field> fields, 
+    protected static void generateToBytesMarshalling(Class<?> c, int n, FileWriter str, int indent, LinkedList<Field> fields, 
                                                      LinkedList<Integer> nullTestedFields, int flagBitCount) {
         String className = getSimpleClassName(c);
         writeLine(str, indent, "public void " + "toBytes(MVByteBuffer buf, Object object) {");
         indent++;
         writeLine(str, indent, className + " me = (" + className + ")object;");
         // Call the formatter for the supertype, if there is one and it's not an interface
-        Class superclass = getValidSuperclass(c);
+        Class<?> superclass = getValidSuperclass(c);
         if (superclass != null) {
             Short typeNum = getTypeNumForClass(superclass);
             writeLine(str, indent, "MarshallingRuntime.marshallers[" + typeNum + "].toBytes(buf, object);");
@@ -335,7 +337,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         for (Field f : fields) {
             index++;
             String fieldName = f.getName();
-            Class fieldType = getFieldType(f);
+            Class<?> fieldType = getFieldType(f);
             Short fieldTypeNum = getTypeNumForClass(fieldType);
             boolean tested = nullTestedFields.contains(index);
             if (tested) {
@@ -351,7 +353,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         writeLine(str, 0, "");
     }
     
-    protected static void generateParseBytesMarshalling(Class c, int n, FileWriter str, int indent) {
+    protected static void generateParseBytesMarshalling(Class<?> c, int n, FileWriter str, int indent) {
         String className = getSimpleClassName(c);
         writeLine(str, indent, "public Object " + "parseBytes(MVByteBuffer buf) {");
         indent++;
@@ -363,7 +365,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         writeLine(str, 0, "");
     }
 
-    protected static void generateAssignBytesMarshalling(Class c, int n, FileWriter str, int indent, LinkedList<Field> fields, 
+    protected static void generateAssignBytesMarshalling(Class<?> c, int n, FileWriter str, int indent, LinkedList<Field> fields, 
                                                          LinkedList<Integer> nullTestedFields, int flagBitCount) {
         // We generate marshalling for this type
         // Put out the encode method header
@@ -372,7 +374,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         indent++;
         writeLine(str, indent, className + " me = (" + className + ")object;");
         // Call the formatter for the supertype, if there is one and it's not an interface
-        Class superclass = getValidSuperclass(c);
+        Class<?> superclass = getValidSuperclass(c);
         if (superclass != null) {
             Short typeNum = getTypeNumForClass(superclass);
             writeLine(str, indent, "MarshallingRuntime.marshallers[" + typeNum + "].Marshaller.assignBytes(buf, object);");
@@ -394,7 +396,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
         for (Field f : fields) {
             index++;
             String fieldName = f.getName();
-            Class fieldType = getFieldType(f);
+            Class<?> fieldType = getFieldType(f);
             Short fieldTypeNum = getTypeNumForClass(fieldType);
             boolean tested = nullTestedFields.contains(index);
             if (tested) {
@@ -412,14 +414,14 @@ public class MarshallingGenerator extends MarshallingRuntime {
     }
 
     protected static String makeOmittedTest(Field f) {
-        Class fieldType = getFieldType(f);
+        Class<?> fieldType = getFieldType(f);
         String test = "(me." + f.getName() + " != null)";
         if (isStringType(fieldType))
             test = "(" + test + " && !(me." + f.getName() + ".equals(\"\")))";
         return test;
     }
 
-    protected static String createWriteOp(Class c, String getter, Short fieldTypeNum) {
+    protected static String createWriteOp(Class<?> c, String getter, Short fieldTypeNum) {
         if (fieldTypeNum >= firstAtomicTypeNum && fieldTypeNum <= lastAtomicTypeNum) {
             String s = writeOps.get(fieldTypeNum);
             if (s == null) {
@@ -435,7 +437,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
             return "MarshallingRuntime.marshallers[" + fieldTypeNum + "].toBytes(buf, " + getter + ")";
     }
 
-    protected static String createReadOp(Class c, String fieldName, short fieldTypeNum) {
+    protected static String createReadOp(Class<?> c, String fieldName, short fieldTypeNum) {
         if (fieldTypeNum >= firstAtomicTypeNum && fieldTypeNum <= lastAtomicTypeNum) {
             String s = readOps.get(fieldTypeNum);
             if (s == null) {
@@ -449,8 +451,8 @@ public class MarshallingGenerator extends MarshallingRuntime {
             // It's a composite entity, so call the marshalling code
             return "me." + fieldName + " = MarshallingRuntime.marshallers[" + fieldTypeNum + "].parseBytes(buf)";
     }
-
-    protected static void checkClassPresent(Class referringClass, Class referredClass,
+    @SuppressWarnings("rawtypes") 
+    protected static void checkClassPresent(Class<?> referringClass, Class<?> referredClass,
                                             Map<Class, LinkedList<Class>> missingTypes) {
         Short s = getTypeNumForClass(referredClass);
         if (s == null) {
@@ -492,7 +494,8 @@ public class MarshallingGenerator extends MarshallingRuntime {
         return (f.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) != 0;
     }
 
-    protected static Class getValidSuperclass(Class c) {
+    @SuppressWarnings("rawtypes")
+	protected static Class getValidSuperclass(@SuppressWarnings("rawtypes") Class c) {
         Class superclass = c.getSuperclass();
         if (superclass != null &&
             (superclass.getModifiers() & Modifier.INTERFACE) == 0 &&
@@ -502,7 +505,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
             return null;
     }
     
-    protected static LinkedList<Field> getValidClassFields(Class c) {
+    protected static LinkedList<Field> getValidClassFields(@SuppressWarnings("rawtypes") Class c) {
         LinkedList<Field> validFields = new LinkedList<Field>();
         Field[]  fields = c.getDeclaredFields();
         for (Field f : fields) {
@@ -512,10 +515,12 @@ public class MarshallingGenerator extends MarshallingRuntime {
         return validFields;
     }
     
-    protected static Class getFieldType(Field f) {
+    @SuppressWarnings("rawtypes")
+	protected static Class getFieldType(Field f) {
         return canonicalType(f.getType());
     }
             
+    @SuppressWarnings("rawtypes")
     protected static Class canonicalType(Class c) {
         String s = c.getSimpleName();
         if (s.equals("List"))
@@ -528,18 +533,22 @@ public class MarshallingGenerator extends MarshallingRuntime {
             return c;
     }
     
+    @SuppressWarnings("rawtypes")
     protected static boolean typeIsPrimitive(Class c) {
         return c.isPrimitive();
     }
     
+    @SuppressWarnings("rawtypes")
     protected static boolean isStringType(Class c) {
         return c.getSimpleName().equals("String");
     }
     
+    @SuppressWarnings("rawtypes")
     protected static String getSimpleClassName(Class c) {
         return c.getSimpleName();
     }
     
+    @SuppressWarnings("rawtypes")
     protected static Class lookupClass(String className) {
         try {
             return Class.forName(className);
@@ -596,8 +605,11 @@ public class MarshallingGenerator extends MarshallingRuntime {
     protected static HashMap<Short, String> writeOps = null;
 
     // Remember the classes for the aggregators
+    @SuppressWarnings("rawtypes")
     protected static Class linkedListClass = null;
+    @SuppressWarnings("rawtypes")
     protected static Class hashMapClass = null;
+    @SuppressWarnings("rawtypes")
     protected static Class hashSetClass = null;
     
     /**
@@ -625,10 +637,10 @@ public class MarshallingGenerator extends MarshallingRuntime {
         public LinkedList<String> stringList = new LinkedList<String>();
         public HashMap<String, Object> stringMap = new HashMap<String, Object>();
         public HashSet<Point> points = new HashSet<Point>();
-
-        public List gstringList = new LinkedList<String>();
-        public Map gstringMap = new HashMap<String, Object>();
-        public Set gpoints = new HashSet<Point>();
+        
+        public LinkedList<String> gstringList = new LinkedList<String>();
+        public HashMap<String, Object> gstringMap = new HashMap<String, Object>();
+        public HashSet<Point> gpoints = new HashSet<Point>();
     }
 
     public static class MarshalTestClass2 extends MarshalTestClass1 {
@@ -637,7 +649,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
     }
     
     protected static void logGenericClassInfo(Object object, String what) {
-        Class c = object.getClass();
+        Class<? extends Object> c = object.getClass();
         Type genSuper = c.getGenericSuperclass();
         Type [] interfaces = c.getGenericInterfaces();
         String s = "";

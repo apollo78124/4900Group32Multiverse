@@ -85,7 +85,8 @@ public class PluginStatusCheck extends TransientAgent
         responders --;
 
         GenericResponseMessage response = (GenericResponseMessage) rr;
-        LinkedHashMap<String,Serializable> status =
+        @SuppressWarnings("unchecked")
+		LinkedHashMap<String,Serializable> status =
             (LinkedHashMap<String,Serializable>) response.getData();
 
         String statusString = "";

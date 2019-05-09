@@ -653,8 +653,8 @@ public class RDPServer implements Runnable {
                         con.removeUnackPacketUpTo(packet.getAckNum());
                     }
                     if (packet.isEak()) {
-                        List eackList = packet.getEackList();
-                        Iterator iter = eackList.iterator();
+                        List<Long> eackList = packet.getEackList();
+                        Iterator<Long> iter = eackList.iterator();
                         while (iter.hasNext()) {
                             Long seqNum = (Long) iter.next();
                             if (Log.loggingNet)
@@ -738,7 +738,7 @@ public class RDPServer implements Runnable {
                             Log
                                     .net("RDPServer.processExistingConnection: connection is sequenced, processing collapsed packets.");
                             // send any saved sequential packets also
-                            Iterator iter = con.getSequencePackets().iterator();
+                            Iterator<RDPPacket> iter = con.getSequencePackets().iterator();
                             while (iter.hasNext()) {
                                 RDPPacket p = (RDPPacket) iter.next();
                                 if (Log.loggingNet)
@@ -951,7 +951,7 @@ public class RDPServer implements Runnable {
     // when we need to re-visit this connection to send its pending
     // data, in case it was not able to send all of its packets
     // due to throttling
-    static class RDPConnectionData implements Comparable {
+    static class RDPConnectionData implements Comparable<Object> {
         public RDPConnection con;
         public long readyTime;
         public int compareTo(Object arg0) {

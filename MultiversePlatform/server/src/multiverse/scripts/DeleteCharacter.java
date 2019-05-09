@@ -64,7 +64,7 @@ public class DeleteCharacter {
             Engine.getOIDManager().defaultChunkSize = 1;
 
             List<Long> gameIDs = db.getGameIDs(worldName, multiverseID);
-            Iterator iter = gameIDs.iterator();
+            Iterator<Long> iter = gameIDs.iterator();
             while (iter.hasNext()) {
                 Long gameId = (Long)iter.next();
                 db.deleteObjectData(gameId.longValue());

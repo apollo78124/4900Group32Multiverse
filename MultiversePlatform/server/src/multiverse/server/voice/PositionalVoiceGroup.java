@@ -552,7 +552,8 @@ public class PositionalVoiceGroup extends BasicVoiceGroup {
      * positional group, or the member changes instances.
      * @param perceiverMember The member that should no longer be tracked.
      */
-    public void removeTrackedPerceiver(PositionalGroupMember perceiverMember) {
+    @SuppressWarnings("unlikely-arg-type")
+	public void removeTrackedPerceiver(PositionalGroupMember perceiverMember) {
         lock.lock();
         try {
             Long instanceOid = perceiverMember.getInstanceOid();

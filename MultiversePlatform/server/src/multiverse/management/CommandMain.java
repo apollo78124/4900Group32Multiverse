@@ -95,7 +95,8 @@ public class CommandMain
         }
 
         String argvString = "argv = [\"<string>\"";
-        int arg = 0;
+        @SuppressWarnings("unused")
+		int arg = 0;
         for (int ii = g.getOptind(); ii < args.length ; ii++) {
             argvString += ",\""+args[ii]+"\"";
             arg++;
@@ -239,7 +240,7 @@ public class CommandMain
         return -1;
     }
 
-    static Set activeVms = null;
+    static Set<?> activeVms = null;
     
 }
 

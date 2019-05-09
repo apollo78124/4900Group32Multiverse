@@ -183,7 +183,7 @@ public class NotifyPlayAnimationEvent extends Event {
         }
     }
 
-    public List getAnimList() {
+    public List<AnimationCommand> getAnimList() {
         lock.lock();
         try {
             return new LinkedList<AnimationCommand>(animList);

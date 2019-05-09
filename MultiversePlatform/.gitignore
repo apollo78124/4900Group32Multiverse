@@ -1,3 +1,5 @@
+/.metadata/
+=======
 # Dev Files #
 ###################
 /preferences.cs
@@ -49,3 +51,4 @@
 Icon?
 ehthumbs.db
 Thumbs.db
+/.recommenders/

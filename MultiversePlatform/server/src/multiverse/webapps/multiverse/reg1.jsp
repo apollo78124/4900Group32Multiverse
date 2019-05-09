@@ -157,8 +157,9 @@ New User Registration
 
     boolean usernameInvalid = false;
     for (int i=0; i < usernameLength; i++) {
-        if (!util.StringUtil.isLetter(username.charAt(i)) &&
-            !util.StringUtil.isNumber(username.charAt(i))) {
+        if (!Character.isLetter(username.charAt(i))
+            //!util.StringUtil.isNumber(username.charAt(i))
+            ) {
             usernameInvalid = true;
             break;
         }
@@ -180,7 +181,7 @@ New User Registration
         usernameHelp = "<br><font color=\"FF0000\">** (User Name must be between 3 & 16 letters or numbers.)</font>";
         usernameOK = false;
     }
-    else if (util.StringUtil.isNumber(username.charAt(0))) {
+    else if (Character.isDigit(username.charAt(0))) {
         usernameHelp = "<br><font color=\"FF0000\">** (User Name must begin with a letter.)</font>";
         usernameOK = false;
     }
@@ -192,8 +193,8 @@ New User Registration
 
     boolean passwordInvalid = false;
     for (int i=0; i < passwordLength; i++) {
-        if (!util.StringUtil.isLetter(password.charAt(i)) &&
-            !util.StringUtil.isNumber(password.charAt(i))) {
+        if (!Character.isLetter(password.charAt(i)) &&
+            !Character.isDigit(password.charAt(i))) {
             passwordInvalid = true;
             break;
         }

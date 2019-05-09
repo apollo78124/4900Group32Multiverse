@@ -50,7 +50,7 @@ public class MarshallingClassLoader extends java.lang.ClassLoader {
                     throws ClassNotFoundException {
 //         int lastDot = className.lastIndexOf(".");
 //         String simpleName = className.substring(lastDot + 1);
-        Class cl = (Class)loadedClasses.get(className);
+        Class<?> cl = (Class<?>)loadedClasses.get(className);
         if (cl != null)
             return cl;
 
@@ -64,7 +64,7 @@ public class MarshallingClassLoader extends java.lang.ClassLoader {
             if (marshallingRuntimeClass == null) {
                 // Try to initialize the method object we'll use to call
                 // MarshallingRuntime.maybeInjectMarshalling
-                marshallingRuntimeClass = (Class)loadedClasses.get("multiverse.server.marshalling.MarshallingRuntime");
+                marshallingRuntimeClass = (Class<?>)loadedClasses.get("multiverse.server.marshalling.MarshallingRuntime");
                 if (marshallingRuntimeClass != null) {
                     // We have the class, so we should be able to get the method
                     try {
@@ -95,7 +95,8 @@ public class MarshallingClassLoader extends java.lang.ClassLoader {
         // If we're not injecting, or if this was not an injectable
         // class, just call findClass to get it, avoiding the overhead
         // of the JavaClass mechanism
-        Class existingClass = loadedClasses.get(className);
+        @SuppressWarnings("rawtypes")
+		Class existingClass = loadedClasses.get(className);
         if (existingClass != null)
             return existingClass;
         if (cl == null)
@@ -116,11 +117,11 @@ public class MarshallingClassLoader extends java.lang.ClassLoader {
         return cl;
     }
     
-    protected Class loadClassWithoutInjection(String className) 
+    protected Class<?> loadClassWithoutInjection(String className) 
                   throws ClassNotFoundException {
         try {
             byte [] bytes = classPath.getBytes(className);
-            Class cl = defineClass(className, bytes, 0, bytes.length);
+            Class<?> cl = defineClass(className, bytes, 0, bytes.length);
             return cl;
         } catch (Exception e) {
             throw new ClassNotFoundException("loadClassWithoutInjection: exception loading class '" + 
@@ -145,9 +146,10 @@ public class MarshallingClassLoader extends java.lang.ClassLoader {
 //         "java.sql.", "java.util.", "sun.", "apache.", "org."
     };
 
-    private HashMap<String, Class> loadedClasses = new HashMap<String, Class>();
+    @SuppressWarnings("rawtypes")
+	private HashMap<String, Class> loadedClasses = new HashMap<String, Class>();
 
-    private Class marshallingRuntimeClass = null;
+    private Class<?> marshallingRuntimeClass = null;
     
     private ClassPath classPath = null;
     

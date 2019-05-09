@@ -37,7 +37,7 @@ import java.beans.*;
  * for encoding the MVObject into xml
  */
 public class MVObjectPersistenceDelegate extends DefaultPersistenceDelegate {
-    protected void initialize(Class type, 
+    protected void initialize(Class<?> type, 
                               Object oldInstance,
                               Object newInstance,
                               Encoder out) {
@@ -178,7 +178,8 @@ public class MVObjectPersistenceDelegate extends DefaultPersistenceDelegate {
             encoder.close();
             System.out.println(xml.toString());
 
-            XMLDecoder d = new XMLDecoder(new ByteArrayInputStream(xml.toByteArray()));
+            @SuppressWarnings("resource")
+			XMLDecoder d = new XMLDecoder(new ByteArrayInputStream(xml.toByteArray()));
 
             Two x2 = (Two)d.readObject();
 System.out.println("decode1: "+x2.getO1());
