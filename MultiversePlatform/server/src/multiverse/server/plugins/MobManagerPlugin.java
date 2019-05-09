@@ -184,7 +184,7 @@ public class MobManagerPlugin extends multiverse.server.engine.EnginePlugin {
             }
             else {
                 try {
-                    Class spawnGenClass =
+                    Class<?> spawnGenClass = //BCIT Change Class<?>
                         spawnGeneratorClasses.get(spawnGenClassName);
                     if (spawnGenClass == null) {
                         throw new MVRuntimeException("spawn generator class not registered");
@@ -275,7 +275,7 @@ public class MobManagerPlugin extends multiverse.server.engine.EnginePlugin {
             {@link multiverse.mars.objects.SpawnGenerator} sub-class.
     */
     public static void registerSpawnGeneratorClass(String name,
-        Class spawnGenClass)
+        Class<?> spawnGenClass) //BCIT Change Class<?>
     {
         synchronized (spawnGeneratorClasses) {
             spawnGeneratorClasses.put(name,spawnGenClass);
@@ -284,13 +284,13 @@ public class MobManagerPlugin extends multiverse.server.engine.EnginePlugin {
 
     /** Get a registered spawn generator class.
     */
-    public static Class getSpawnGeneratorClass(String name)
+    public static Class<?> getSpawnGeneratorClass(String name)//BCIT Change Class<?>
     {
         return spawnGeneratorClasses.get(name);
     }
 
-    private static Map<String,Class> spawnGeneratorClasses =
-        new HashMap<String,Class>();
+    private static Map<String,Class<?>> spawnGeneratorClasses = //BCIT Change <String, Class<?>>
+        new HashMap<String,Class<?>>();//BCIT Change <String, Class<?>>
 
     private static Map<Long,ObjectTracker> trackers =
         new HashMap<Long,ObjectTracker>();

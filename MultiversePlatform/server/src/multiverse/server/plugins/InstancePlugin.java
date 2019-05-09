@@ -178,7 +178,7 @@ public class InstancePlugin extends EnginePlugin
             {@link multiverse.server.engine.WorldLoaderOverride}.
     */
     public static void registerWorldLoaderOverrideClass(String name,
-        Class loaderOverrideClass)
+        Class<DefaultWorldLoaderOverride> loaderOverrideClass) //BCIT Change Class<DefaultWorldLoaderOverride>
     {
         synchronized (loaderOverrideClasses) {
             loaderOverrideClasses.put(name,loaderOverrideClass);
@@ -187,13 +187,13 @@ public class InstancePlugin extends EnginePlugin
 
     /** Get a registered spawn generator class.
     */
-    public static Class getWorldLoaderOverrideClass(String name)
+    public static Class<DefaultWorldLoaderOverride> getWorldLoaderOverrideClass(String name) //BCIT Change Class<DefaultWorldLoaderOverride>
     {
         return loaderOverrideClasses.get(name);
     }
 
-    private static Map<String,Class> loaderOverrideClasses =
-        new HashMap<String,Class>();
+    private static Map<String,Class<DefaultWorldLoaderOverride>> loaderOverrideClasses = //BCIT Change Class<DefaultWorldLoaderOverride>
+        new HashMap<String,Class<DefaultWorldLoaderOverride>>(); //BCIT Change Class<DefaultWorldLoaderOverride>
 
     class RegisterInstanceTemplateHook implements Hook {
         public boolean processMessage(Message msg, int flags) {
@@ -904,7 +904,7 @@ public class InstancePlugin extends EnginePlugin
 
     public class MarkerSearch implements Searchable
     {
-        public Collection runSearch(SearchClause search,
+        public Collection<Object> runSearch(SearchClause search, //BCIT Change Collection<Object>
             SearchSelection selection)
         {
             Marker.Search markerSearch = (Marker.Search) search;
@@ -917,13 +917,13 @@ public class InstancePlugin extends EnginePlugin
                 return null;
             }
 
-            return instance.runMarkerSearch(search,selection);
+            return (Collection<Object>)instance.runMarkerSearch(search,selection); //BCIT Change (Collection<Object>)
         }
     }
 
     public class RegionSearch implements Searchable
     {
-        public Collection runSearch(SearchClause search,
+        public Collection<Object> runSearch(SearchClause search, //BCIT Change Collection<Object>
             SearchSelection selection)
         {
             Region.Search regionSearch = (Region.Search) search;
@@ -936,7 +936,7 @@ public class InstancePlugin extends EnginePlugin
                 return null;
             }
 
-            return instance.runRegionSearch(search,selection);
+            return (Collection<Object>)instance.runRegionSearch(search,selection); //BCIT Change Collection<Object>
         }
     }
 
@@ -948,7 +948,7 @@ public class InstancePlugin extends EnginePlugin
 
     private WorldLoaderOverride createLoaderOverride(String loaderName)
     {
-        Class loaderClass = null;
+        Class<DefaultWorldLoaderOverride> loaderClass = null; //BCIT Change Class<DefaultWorldLoaderOverride>
         try {
             loaderClass =
                 loaderOverrideClasses.get(loaderName);
