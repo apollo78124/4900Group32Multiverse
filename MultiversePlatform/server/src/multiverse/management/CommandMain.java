@@ -95,7 +95,8 @@ public class CommandMain
         }
 
         String argvString = "argv = [\"<string>\"";
-        int arg = 0;
+        @SuppressWarnings("unused")
+		int arg = 0;
         for (int ii = g.getOptind(); ii < args.length ; ii++) {
             argvString += ",\""+args[ii]+"\"";
             arg++;
