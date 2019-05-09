@@ -94,7 +94,11 @@ public class NamespaceFilter extends MessageTypeFilter
         return super.toStringInternal() + " namespaces=" + s;
      }
     
-    private Collection<Namespace> namespaces;
+    public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+
+	private Collection<Namespace> namespaces;
 
     private static final long serialVersionUID = 1L;
 }

@@ -110,7 +110,8 @@ public class DCMap implements Serializable, Marshallable {
             MarshallingRuntime.marshalHashMap(buf, map);
     }
 
-    public Object unmarshalObject(MVByteBuffer buf) {
+    @SuppressWarnings("unchecked")
+	public Object unmarshalObject(MVByteBuffer buf) {
         byte flags = buf.getByte();
         if ((flags & 1) != 0) {
             MarshallingRuntime.unmarshalMarshallingObject(buf, defaultDC);
