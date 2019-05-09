@@ -653,8 +653,8 @@ public class RDPServer implements Runnable {
                         con.removeUnackPacketUpTo(packet.getAckNum());
                     }
                     if (packet.isEak()) {
-                        List<?> eackList = packet.getEackList();
-                        Iterator<?> iter = eackList.iterator();
+                        List<Long> eackList = packet.getEackList();
+                        Iterator<Long> iter = eackList.iterator();
                         while (iter.hasNext()) {
                             Long seqNum = (Long) iter.next();
                             if (Log.loggingNet)
