@@ -95,7 +95,7 @@ public class MarshallingRuntime {
      * Records the fact that this marshalling class has marshalling methods.
      * This is called exclusively by the MarshallingClassLoader
      */
-    public static void addMarshallingClass(String className, Class c) {
+    public static void addMarshallingClass(String className, Class<?> c) {
         ClassProperties props = classToClassProperties.get(className);
         if (props == null)
             throwError("MarshallingRuntime.addMarshallingClass: could not look up class '" + className + "'");
@@ -179,7 +179,7 @@ public class MarshallingRuntime {
         if (object == null)
             writeTypeNum(buf, typeNumNull);
         else {
-            Class c = object.getClass();
+            Class<? extends Object> c = object.getClass();
             Short typeNum = getTypeNumForClass(c);
             if (typeNum == null) {
                 // Back off to Java serialization (sigh)
@@ -304,7 +304,7 @@ public class MarshallingRuntime {
         Short typeNum = readTypeNum(buf);
         // If it's a non-builtin type, call the unmarshalling method
         if (typeNum > lastBuiltinTypeNum) {
-            Class marshallingClass = marshallers[typeNum];
+            Class<?> marshallingClass = marshallers[typeNum];
             if (marshallingClass == null) {
                 throwError("MarshallingRuntime.unmarshalObject: no marshalling class for typeNum '" + typeNum + "'");
                 return null;
@@ -549,18 +549,17 @@ public class MarshallingRuntime {
      * @param c The Class object
      * @return The appropriate type number, or typeNumNull
      */
-    public static Short getTypeNumForClassOrBarf(Class c) {
+    public static Short getTypeNumForClassOrBarf(Class<? extends Object> c) {
         Short typeNum = getTypeNumForClass(c);
         if (typeNum == null) {
             Log.dumpStack("Did not find class '" + c.getName() + "' in the type num map");
             return typeNumNull;
-        }
-        else {
+        } else {
             return typeNum;
         }
     }
 
-    protected static Short getTypeNumForClass(Class c) {
+    protected static Short getTypeNumForClass(Class<? extends Object> c) {
         return getTypeNumForClassName(c.getName());
     }
     
@@ -572,10 +571,10 @@ public class MarshallingRuntime {
             return null;
     }
     
-    protected static Class getClassForClassName(String className) {
+    protected static Class<?> getClassForClassName(String className) {
         try {
 //             Log.debug("MarshallingRuntime.getClassForClassName: on class '" + className + "'");
-            Class c = Class.forName(className);
+            Class<?> c = Class.forName(className);
             if (c == null)
                 Log.error("MarshallingRuntime.getClassForClassName: could not find class '" + className + "'");
             return c;
@@ -587,7 +586,7 @@ public class MarshallingRuntime {
     }
     
     protected static String getClassNameForObject(Object object) {
-        Class c = object.getClass();
+        Class<? extends Object> c = object.getClass();
         if (c != null)
             return c.getName();
         else
@@ -622,10 +621,11 @@ public class MarshallingRuntime {
     // The marshallers
     //
     
-    protected static void addMarshaller(Class c, Short typeNum) {
+    protected static void addMarshaller(Class<?> c, Short typeNum) {
         if (marshallers.length <= typeNum) {
             int newSize = typeNum + 256;
-            Class [] newMarshallers = new Class[newSize];
+            @SuppressWarnings("rawtypes")
+			Class [] newMarshallers = new Class[newSize];
             for (int i=0; i<marshallers.length; i++)
                 newMarshallers[i] = marshallers[i];
             marshallers = newMarshallers;
@@ -717,7 +717,7 @@ public class MarshallingRuntime {
     
     
     private static void marshalListInternal(MVByteBuffer buf, Object object) {
-        List list = (List)object;
+        List<?> list = (List<?>)object;
         buf.putInt(list.size());
         for (Object elt : list)
             marshalObject(buf, elt);
@@ -730,7 +730,8 @@ public class MarshallingRuntime {
     }
     
     private static void marshalMapInternal(MVByteBuffer buf, Object object) {
-        Map<Object, Object> map = (Map<Object, Object>)object;
+        @SuppressWarnings("unchecked")
+		Map<Object, Object> map = (Map<Object, Object>)object;
         buf.putInt(map.size());
         for (Map.Entry<Object, Object> entry : map.entrySet()) {
             marshalObject(buf, entry.getKey());
@@ -746,7 +747,8 @@ public class MarshallingRuntime {
     }
 
     private static void marshalSetInternal(MVByteBuffer buf, Object object) {
-        Set<Object> set = (Set<Object>)object;
+        @SuppressWarnings("unchecked")
+		Set<Object> set = (Set<Object>)object;
         buf.putInt(set.size());
         for (Object obj : set) {
             marshalObject(buf, obj);
@@ -1040,7 +1042,8 @@ public class MarshallingRuntime {
     /**
      * The map from typeNum to the classes of the object for which we've generated marshalling code
      */
-    protected static Class[] marshallers;
+    @SuppressWarnings("rawtypes")
+	protected static Class[] marshallers;
     
     protected static boolean predefinedTypesInstalled = false;
 
@@ -1055,7 +1058,8 @@ public class MarshallingRuntime {
     // in the sense that no supertypes or field types refer to unregistered types
     //
     
-    protected static boolean checkTypeReferences() {
+    @SuppressWarnings("unused")
+	protected static boolean checkTypeReferences() {
         // Verify that every type for which we need to generate code
         // is in the maps.  Do it in a goofy, unordered way, since it
         // doesn't actually matter.
@@ -1245,14 +1249,14 @@ public class MarshallingRuntime {
         Float floatVal = 3.0f;
         Double doubleVal = 3.0;
         String stringVal = "3";
-        LinkedList listVal = new LinkedList();
-        ArrayList arrayListVal = new ArrayList();
-        HashMap hashMapVal = new HashMap();
-        LinkedHashMap linkedHashMapVal = new LinkedHashMap();
-        TreeMap treeMapVal = new TreeMap();
-        HashSet hashSetVal = new HashSet();
-        LinkedHashSet linkedHashSetVal = new LinkedHashSet();
-        TreeSet treeSetVal = new TreeSet();
+        LinkedList<?> listVal = new LinkedList<Object>();
+        ArrayList<?> arrayListVal = new ArrayList<Object>();
+        HashMap<?,?> hashMapVal = new HashMap<Object, Object>();
+        LinkedHashMap<?,?> linkedHashMapVal = new LinkedHashMap<Object, Object>();
+        TreeMap<?,?> treeMapVal = new TreeMap<Object, Object>();
+        HashSet<?> hashSetVal = new HashSet<Object>();
+        LinkedHashSet<?> linkedHashSetVal = new LinkedHashSet<Object>();
+        TreeSet<?> treeSetVal = new TreeSet<Object>();
         byte[] byteArrayVal = new byte[2];
         
         addPrimitiveToTypeMap(booleanVal, typeNumBoolean);
@@ -1432,7 +1436,7 @@ public class MarshallingRuntime {
                 short typeNum = (short)Integer.parseInt(fields[1]);
                 ClassProperties props = new ClassProperties(className, typeNum, false);
                 classToClassProperties.put(className, props);
-                Class c = Class.forName(className);
+                Class<?> c = Class.forName(className);
                 addMarshaller(c, typeNum);
                 i++;
             }
@@ -1462,7 +1466,8 @@ public class MarshallingRuntime {
         }
         java.text.DateFormat dateFormat = new java.text.SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         java.util.Date date = new java.util.Date();
-        String dateString = dateFormat.format(date);
+        @SuppressWarnings("unused")
+		String dateString = dateFormat.format(date);
         //try {
         	//out.write("# This is a generated file - - do not edit!  Written at " + dateString + "\n");
         //}
@@ -1498,7 +1503,7 @@ public class MarshallingRuntime {
             }
             else {
                 // The statement below caused the class to be loaded and injected
-                Class c = getClassForClassName(className);
+                Class<?> c = getClassForClassName(className);
                 if (InjectionGenerator.handlesMarshallable(className)) {
                     addMarshaller(c, typeNum);
                     Log.debug("Recorded by-hand marshaller '" + className + "', typeNum " + typeNum + "/0x" + Integer.toHexString(typeNum));
