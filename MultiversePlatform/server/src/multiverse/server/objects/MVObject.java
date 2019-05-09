@@ -274,7 +274,8 @@ public class MVObject extends Entity {
 
     public static final String perceiverKey = "mvobj.perceiver";
 
-    public MobilePerceiver<WMWorldNode> perceiver() {
+    @SuppressWarnings("unchecked")
+	public MobilePerceiver<WMWorldNode> perceiver() {
         // lock here because the set counterpart method is nonatomic
         lock.lock();
         try {

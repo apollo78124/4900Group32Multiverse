@@ -56,7 +56,7 @@ public class EntitySearchable implements Searchable
         this.objectType = objectType;
     }
 
-    public Collection runSearch(SearchClause search,
+    public Collection<Object> runSearch(SearchClause search,
         SearchSelection selection)
     {
         Matcher matcher = SearchManager.getMatcher(search, Entity.class);

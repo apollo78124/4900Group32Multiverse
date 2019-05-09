@@ -120,5 +120,6 @@ public class Fog {
     
     protected String name = null;
     
-    private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 }

@@ -41,7 +41,7 @@ public abstract class CharacterFactory {
         @return Master OID for the player object
      */
     public abstract Long createCharacter(String worldName, int multiverseID,
-	java.util.Map properties);
+	java.util.Map<?, ?> properties);
 
     /** Delete a character.  The default implementation does nothing
         and returns success.
@@ -52,7 +52,7 @@ public abstract class CharacterFactory {
         @return null on success, error message on failure
     */
     public String deleteCharacter(String worldName, int multiverseID,
-        long playerOid, java.util.Map properties)
+        long playerOid, java.util.Map<?, ?> properties)
     {
         return null;
     }

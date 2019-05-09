@@ -248,7 +248,8 @@ public class GroupMember {
      * for the message, and apply them to the member's ignore list.
      * @param extMsg The ExtensionMessage containing the ignore list changes.
      */
-    private void applyIgnoreUpdateMessageInternal(ExtensionMessage extMsg) {
+    @SuppressWarnings("unchecked")
+	private void applyIgnoreUpdateMessageInternal(ExtensionMessage extMsg) {
         List<Long> nowIgnored = (LinkedList<Long>)extMsg.getProperty("now_ignored");
         List<Long> noLongerIgnored = (LinkedList<Long>)extMsg.getProperty("no_longer_ignored");
         if (noLongerIgnored != null)
