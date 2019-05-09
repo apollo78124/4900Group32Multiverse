@@ -340,13 +340,13 @@ public class Instance extends Entity
         loadingInstance.set(instance);
     }
 
-    public Collection runMarkerSearch(SearchClause search,
+    public Collection<Object> runMarkerSearch(SearchClause search,
             SearchSelection selection)
     {
         return markerSearch.runSearch(search, selection);
     }
 
-    public Collection runRegionSearch(SearchClause search,
+    public Collection<Object> runRegionSearch(SearchClause search,
             SearchSelection selection)
     {
         return regionSearch.runSearch(search, selection);
@@ -354,7 +354,7 @@ public class Instance extends Entity
 
     class MarkerSearch implements Searchable
     {
-        public Collection runSearch(SearchClause search,
+        public Collection<Object> runSearch(SearchClause search,
             SearchSelection selection)
         {
             Matcher matcher = SearchManager.getMatcher(search, Marker.class);
@@ -401,7 +401,7 @@ public class Instance extends Entity
 
     class RegionSearch implements Searchable
     {
-        public Collection runSearch(SearchClause search,
+        public Collection<Object> runSearch(SearchClause search,
             SearchSelection selection)
         {
             Matcher matcher = SearchManager.getMatcher(search, Region.class);

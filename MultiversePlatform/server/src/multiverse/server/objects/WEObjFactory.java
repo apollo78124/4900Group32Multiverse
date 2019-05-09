@@ -63,7 +63,7 @@ public class WEObjFactory extends ObjectFactory {
                     behavName = behavName.trim();
                     if (behavName.length() == 0)
                         continue;
-		    Class behavClass = behavClassMap.get(behavName);
+		    Class<Behavior> behavClass = behavClassMap.get(behavName);
                     if (behavClass == null) {
                         Log.error("WEObjFactory.makeObject: unknown behavior="+
                             behavName + ", templateName="+templateName+
@@ -90,7 +90,8 @@ public class WEObjFactory extends ObjectFactory {
 
     public static void registerBehaviorClass(String name, String className) {
 	try {
-	    Class<Behavior> behavClass = (Class<Behavior>)Class.forName(className);
+	    @SuppressWarnings("unchecked")
+		Class<Behavior> behavClass = (Class<Behavior>)Class.forName(className);
 	    behavClassMap.put(name, behavClass);
 	}
 	catch (ClassNotFoundException e) {
@@ -99,6 +100,6 @@ public class WEObjFactory extends ObjectFactory {
     }
 
     protected static Map<String, Class<Behavior>> behavClassMap = new HashMap<String, Class<Behavior>>();
-    private final static Class[] constructorArgs = { SpawnData.class };
+    private final static Class<?>[] constructorArgs = { SpawnData.class };
     protected SpawnData spawnData = null;
 }

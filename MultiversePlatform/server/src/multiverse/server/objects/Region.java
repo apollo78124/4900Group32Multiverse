@@ -221,7 +221,7 @@ public class Region implements Serializable
         {
         }
 
-        public Search(long instanceOid, Map queryProps)
+        public Search(long instanceOid, Map<?, ?> queryProps)
         {
             super(queryProps);
             setInstanceOid(instanceOid);

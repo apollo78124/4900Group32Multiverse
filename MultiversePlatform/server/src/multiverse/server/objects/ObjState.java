@@ -41,7 +41,12 @@ import java.io.*;
  * 
  */
 public abstract class ObjState implements Serializable {
-    public abstract Integer getIntValue();
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	public abstract Integer getIntValue();
     public abstract String getStateName();
     
     public int hashCode() {

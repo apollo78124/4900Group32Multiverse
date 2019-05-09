@@ -172,7 +172,7 @@ public class Marker implements Serializable, Cloneable
         {
         }
 
-        public Search(long instanceOid, Map queryProps)
+        public Search(long instanceOid, Map<?, ?> queryProps)
         {
             super(queryProps);
             setInstanceOid(instanceOid);
