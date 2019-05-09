@@ -10,7 +10,7 @@ import java.util.concurrent.locks.*;
 public class TradeSession {
     /**
      * the pair you pass in is going to set who is trader1
-     * and trader2 in the trading list.
+     * and trader2 in the trading list
      */
     public TradeSession(Long trader1, Long trader2) {
 	this.trader1 = trader1;
