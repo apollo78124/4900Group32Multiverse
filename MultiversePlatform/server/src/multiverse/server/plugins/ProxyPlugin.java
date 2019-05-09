@@ -1259,7 +1259,7 @@ public class ProxyPlugin extends EnginePlugin
     protected boolean loadPlayerObject(Player player)
     {
         InstanceRestorePoint restorePoint = null;
-        LinkedList restoreStack = null;
+        LinkedList<Object> restoreStack = null; //BCIT Change <Object>
         boolean first = true;
         long playerOid = player.getOid();
 
@@ -1322,7 +1322,7 @@ public class ProxyPlugin extends EnginePlugin
                 return false;
 
             // Get the instance restore stack
-            restoreStack = (LinkedList) EnginePlugin.getObjectProperty(
+            restoreStack = (LinkedList<Object>) EnginePlugin.getObjectProperty( //BCIT Change <Object>
                 playerOid, Namespace.OBJECT_MANAGER,
                 ObjectManagerClient.TEMPL_INSTANCE_RESTORE_STACK);
 
@@ -3191,7 +3191,7 @@ if (player.getOid() == World.DEBUG_OID)
     static class InstanceEntryState {
         int step = 1;
         InstanceInfo instanceInfo;
-        LinkedList restoreStack;
+        LinkedList<Object> restoreStack; //BCIT Change <Object>
         BasicWorldNode previousLoc;
     }
 
@@ -3269,7 +3269,7 @@ if (player.getOid() == World.DEBUG_OID)
 
             if ((entryFlags & InstanceEntryReqMessage.FLAG_POP) != 0) {
                 // Get the instance restore stack
-                LinkedList restoreStack = (LinkedList) EnginePlugin.getObjectProperty(
+                LinkedList<Object> restoreStack = (LinkedList<Object>) EnginePlugin.getObjectProperty( //BCIT Change <Object>
                     player.getOid(), Namespace.OBJECT_MANAGER,
                     ObjectManagerClient.TEMPL_INSTANCE_RESTORE_STACK);
                 if (restoreStack == null || restoreStack.size() == 0) {
@@ -3479,7 +3479,7 @@ if (player.getOid() == World.DEBUG_OID)
 
             // "pop" flag: remove top of stack on successful instance entry
             if ((entryFlags & InstanceEntryReqMessage.FLAG_POP) != 0) {
-                LinkedList restoreStack = state.restoreStack;
+                LinkedList<Object> restoreStack = state.restoreStack; //BCIT Change <Object>
                 InstanceRestorePoint top =
                     (InstanceRestorePoint) restoreStack.get(
                         restoreStack.size()-1);

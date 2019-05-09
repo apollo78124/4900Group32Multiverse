@@ -2669,6 +2669,10 @@ public class WorldManagerClient {
     // A base class for MobPathReqMessage and MobPathMessage
     abstract public static class MobPathMessageBaseClass extends SubjectMessage /* implements ClientMessage */ {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L; //BCIT Change Added this
         abstract protected MessageType getMobPathMsgType();
         abstract protected String getMobPathMsgTypeTitle();
 

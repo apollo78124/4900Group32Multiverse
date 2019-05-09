@@ -505,7 +505,7 @@ public class PathSearcher {
             return null;
         while (true) {
             PathIntersection closest = null;
-            QuadTreeElement closestElem = null;
+            QuadTreeElement<PathModelElement> closestElem = null; //BCIT Change <PathModelElement>
             for (PathModelElement elem : elems) {
                 if (logAll)
                     log.debug("findFirstObstacle elem = " + elem);
