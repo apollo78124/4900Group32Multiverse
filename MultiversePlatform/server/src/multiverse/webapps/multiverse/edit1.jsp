@@ -180,8 +180,8 @@ Edit User Registration
 
     boolean passwordInvalid = false;
     for (int i=0; i < passwordLength; i++) {
-        if (!util.StringUtil.isLetter(password.charAt(i)) &&
-            !util.StringUtil.isNumber(password.charAt(i))) {
+        if (!Character.isLetter(password.charAt(i)) &&
+            !Character.isDigit(password.charAt(i))) {
             passwordInvalid = true;
             break;
         }
