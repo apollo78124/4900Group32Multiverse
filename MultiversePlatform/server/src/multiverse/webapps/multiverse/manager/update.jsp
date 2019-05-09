@@ -22,7 +22,7 @@ Update Results
 
     String worldname = request.getParameter("worldname");
     String servername = request.getParameter("servername");
-    int serverport = Intger.parseInt(request.getParameter("serverport"));
+    int serverport = Integer.parseInt(request.getParameter("serverport"));
 
     String update = "UPDATE worlds SET servername = '" +
                     servername +
