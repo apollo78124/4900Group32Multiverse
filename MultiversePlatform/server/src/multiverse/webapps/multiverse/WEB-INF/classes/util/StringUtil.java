@@ -1,4 +1,3 @@
-package multiverse.webapps.multiverse.WEB-INF.classes.util;
 
 public final class StringUtil {
 

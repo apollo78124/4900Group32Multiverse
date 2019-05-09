@@ -1,31 +1,3 @@
-/********************************************************************
-
-The Multiverse Platform is made available under the MIT License.
-
-Copyright (c) 2012 The Multiverse Foundation
-
-Permission is hereby granted, free of charge, to any person 
-obtaining a copy of this software and associated documentation 
-files (the "Software"), to deal in the Software without restriction, 
-including without limitation the rights to use, copy, modify, 
-merge, publish, distribute, sublicense, and/or sell copies 
-of the Software, and to permit persons to whom the Software 
-is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be 
-included in all copies or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, 
-EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES 
-OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND 
-NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT 
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, 
-WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING 
-FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE 
-OR OTHER DEALINGS IN THE SOFTWARE.
-
-*********************************************************************/
-
 package multiverse.mars.plugins;
 
 import java.util.*;
@@ -527,8 +499,8 @@ public class MarsInventoryPlugin extends InventoryPlugin implements MessageCallb
     public static void sendTradeOfferUpdate(Long trader1, Long trader2, TradeSession tradeSession) {
         Boolean accepted1 = tradeSession.getAccepted(trader1);
         Boolean accepted2 = tradeSession.getAccepted(trader2);
-        LinkedList<LinkedList> offer1 = sendTradeOfferUpdateHelper(trader1, tradeSession);
-        LinkedList<LinkedList> offer2 = sendTradeOfferUpdateHelper(trader2, tradeSession);
+        LinkedList<LinkedList<Object>> offer1 = sendTradeOfferUpdateHelper(trader1, tradeSession); //BCIT LinkedList<LinkedList<Object>>
+        LinkedList<LinkedList<Object>> offer2 = sendTradeOfferUpdateHelper(trader2, tradeSession); //BCIT LinkedList<LinkedList<Object>>
 
         Map<String, Serializable> props = new HashMap<String, Serializable>();
         props.put("ext_msg_subtype", "mv.TRADE_OFFER_UPDATE");
@@ -541,23 +513,23 @@ public class MarsInventoryPlugin extends InventoryPlugin implements MessageCallb
 	Engine.getAgent().sendBroadcast(msg);
     }
 
-    protected static LinkedList<LinkedList> sendTradeOfferUpdateHelper(Long traderOid, TradeSession tradeSession) {
-        LinkedList<LinkedList> offer = new LinkedList<LinkedList>();
-	for (Long itemOid : tradeSession.getOffer(traderOid)) {
-	    LinkedList<Object> info = new LinkedList<Object>();
-	    if ((itemOid == null) || itemOid.equals(OIDManager.invalidOid)) {
-                info.add(OIDManager.invalidOid);
-                info.add("");
-                info.add("");
-	    }
-	    else {
-		MarsItem item = getMarsItem(itemOid);
-                info.add(itemOid);
-                info.add(item.getName());
-                info.add(item.getIcon());
-	    }
-	    offer.add(info);
-	}
+    protected static LinkedList<LinkedList<Object>> sendTradeOfferUpdateHelper(Long traderOid, TradeSession tradeSession) { //BCIT LinkedList<LinkedList<Object>>
+        LinkedList<LinkedList<Object>> offer = new LinkedList<LinkedList<Object>>(); //BCIT LinkedList<LinkedList<Object>>
+    	for (Long itemOid : tradeSession.getOffer(traderOid)) {
+    	    LinkedList<Object> info = new LinkedList<Object>();
+    	    if ((itemOid == null) || itemOid.equals(OIDManager.invalidOid)) {
+                    info.add(OIDManager.invalidOid);
+                    info.add("");
+                    info.add("");
+    	    }
+    	    else {
+    		MarsItem item = getMarsItem(itemOid);
+                    info.add(itemOid);
+                    info.add(item.getName());
+                    info.add(item.getIcon());
+    	    }
+    	    offer.add(info);
+    	}
         return offer;
     }
 
