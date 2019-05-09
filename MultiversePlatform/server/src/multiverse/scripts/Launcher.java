@@ -136,10 +136,11 @@ public class Launcher {
 
     public void printElements(Vector<String> v) {
         System.out.println("ELEMENTS OF COMMAND VECTOR");
-        for(Iterator it = v.iterator(); it.hasNext(); System.out.println(it.next()));
+        for(Iterator<String> it = v.iterator(); it.hasNext(); System.out.println(it.next()));
     }
 
-    public Process startServer(String svrName) {
+    @SuppressWarnings("unused")
+	public Process startServer(String svrName) {
         Vector<String> cmds = new Vector<String>();
         Process p = null;
         System.out.println((new StringBuilder("Starting ")).append(svrName).toString());

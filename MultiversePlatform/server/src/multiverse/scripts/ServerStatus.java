@@ -53,7 +53,8 @@ public class ServerStatus {
 
            try {
 
-               BufferedReader inputStream = new BufferedReader(new FileReader(sFile));
+               @SuppressWarnings("resource")
+			BufferedReader inputStream = new BufferedReader(new FileReader(sFile));
 
                String line;
                while ((line = inputStream.readLine()) != null) {
