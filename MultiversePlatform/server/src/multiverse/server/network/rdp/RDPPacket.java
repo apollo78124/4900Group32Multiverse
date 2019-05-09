@@ -41,7 +41,7 @@ import multiverse.server.network.*;
 //
 // natural ordering is based on sequence numbering
 //
-public class RDPPacket implements Comparable {
+public class RDPPacket implements Comparable<Object> {
     public RDPPacket() {
 	super();
     }
@@ -208,7 +208,7 @@ public class RDPPacket implements Comparable {
     // input is a list of RDPPacket, not Longs
     // we store a list of LONGS
     // sets isEak to true
-    public void setEackList(List inList) {
+    public void setEackList(List<?> inList) {
 	try {
 	    RDPPacket.StaticLock.lock();
 	    if (inList == null) {
@@ -216,7 +216,7 @@ public class RDPPacket implements Comparable {
 		return;
 	    }
 	    eackList.clear();
-	    Iterator iter = inList.iterator();
+	    Iterator<?> iter = inList.iterator();
 	    while (iter.hasNext()) {
 		Object o = iter.next();
 		if (! (o instanceof RDPPacket)) {
@@ -235,7 +235,7 @@ public class RDPPacket implements Comparable {
     }
 
     // returns a copy of the eack list
-    public List getEackList() {
+    public List<Long> getEackList() {
 	try {
 	    RDPPacket.StaticLock.lock();
 	    LinkedList<Long> list = new LinkedList<Long>(eackList);
@@ -507,7 +507,7 @@ public class RDPPacket implements Comparable {
 		}
 	    }
 	    else if (mIsEak) {
-		Iterator iter = eackList.iterator();
+		Iterator<Long> iter = eackList.iterator();
 		while (iter.hasNext()) {
 		    Long seqNum = (Long) iter.next();
 		    buf.putInt((int) seqNum.longValue());

@@ -1021,7 +1021,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
             lock.lock();
             if (Log.loggingNet)
                 Log.net("removingunackpacketupto: " + seqNum);
-            Iterator iter = unackPacketSet.iterator();
+            Iterator<RDPPacket> iter = unackPacketSet.iterator();
             while (iter.hasNext()) {
                 RDPPacket p = (RDPPacket) iter.next();
                 if (p.getSeqNum() <= seqNum) {
@@ -1057,7 +1057,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
             int count = 0;
             int size = unackPacketSet.size();
             String s = "seq nums =";
-            Iterator iter = unackPacketSet.iterator();
+            Iterator<RDPPacket> iter = unackPacketSet.iterator();
             while (iter.hasNext() && count++ < 6) {
                 RDPPacket p = (RDPPacket) iter.next();
                 s += " " + p.getSeqNum();
@@ -1078,7 +1078,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
         // you cant remove while you are iterating via the keyset or values()
         try {
             lock.lock();
-            Iterator iter = unackPacketSet.iterator();
+            Iterator<RDPPacket> iter = unackPacketSet.iterator();
             while (iter.hasNext()) {
                 RDPPacket p = (RDPPacket) iter.next();
                 if (p.getSeqNum() < seqNum) {
@@ -1109,7 +1109,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
         try {
             long currentTime = System.currentTimeMillis();
             lock.lock();
-            Iterator iter = unackPacketSet.iterator();
+            Iterator<RDPPacket> iter = unackPacketSet.iterator();
             while (iter.hasNext()) {
                 RDPPacket p = (RDPPacket) iter.next();
                 long transmitTime = p.getTransmitTime();
@@ -1169,7 +1169,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
     boolean removeEack(long seqNum) {
         try {
             lock.lock();
-            Iterator iter = eackSet.iterator();
+            Iterator<RDPPacket> iter = eackSet.iterator();
             while (iter.hasNext()) {
                 RDPPacket p = (RDPPacket) iter.next();
                 if (p.getSeqNum() == seqNum) {
@@ -1185,7 +1185,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
 
     // list of RDPPackets
     // makes a copy of the current eack set and returns it as a list
-    List getEackList() {
+    List<RDPPacket> getEackList() {
         try {
             lock.lock();
             LinkedList<RDPPacket> list = new LinkedList<RDPPacket>(eackSet);
@@ -1199,7 +1199,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
     boolean hasEack(long seqNum) {
         try {
             lock.lock();
-            Iterator iter = eackSet.iterator();
+            Iterator<RDPPacket> iter = eackSet.iterator();
             while (iter.hasNext()) {
                 RDPPacket p = (RDPPacket) iter.next();
                 if (p.getSeqNum() == seqNum) {
@@ -1234,7 +1234,7 @@ public class RDPConnection extends ClientConnection implements Cloneable {
      * returns actual set - used to store out of sequence packets when the
      * connection is set up as sequential
      */
-    SortedSet getSequencePackets() {
+    SortedSet<RDPPacket> getSequencePackets() {
         return sequencePackets;
     }
 
