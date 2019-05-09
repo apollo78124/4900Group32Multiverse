@@ -33,53 +33,54 @@ import multiverse.server.objects.*;
 import multiverse.server.network.*;
 
 /**
- * this event contains information about the ambient light.
- * the server usually sends this event to the user when they log in
- * in the loginhandler.
- * it doesnt have an entity_id associated with it because
- * its general information about the world
+ * this event contains information about the ambient light. the server usually
+ * sends this event to the user when they log in in the loginhandler. it doesnt
+ * have an entity_id associated with it because its general information about
+ * the world
  */
 public class AmbientLightEvent extends Event {
-    public AmbientLightEvent() {
-	super();
-    }
+	public AmbientLightEvent() {
+		super();
+	}
 
-    public AmbientLightEvent(MVByteBuffer buf, ClientConnection con) {
-	super(buf,con);
-    }
+	public AmbientLightEvent(MVByteBuffer buf, ClientConnection con) {
+		super(buf, con);
+	}
 
-    public AmbientLightEvent(Color color) {
-	super();
-	setAmbientLight(color);
-    }
+	public AmbientLightEvent(Color color) {
+		super();
+		setAmbientLight(color);
+	}
 
-    public void setAmbientLight(Color color) {
-	this.color = color;
-    }
-    public Color getAmbientLight() {
-	return color;
-    }
+	public void setAmbientLight(Color color) {
+		this.color = color;
+	}
 
-    public MVByteBuffer toBytes() {
-	int msgId = Engine.getEventServer().getEventID(this.getClass());
-	MVByteBuffer buf = new MVByteBuffer(20);
-	buf.putLong(0); 
-	buf.putInt(msgId);
-	buf.putColor(getAmbientLight());
-	buf.flip();
-	return buf;
-    }
+	public Color getAmbientLight() {
+		return color;
+	}
 
-    protected void parseBytes(MVByteBuffer buf) {
-	buf.rewind();
-	buf.getLong(); // ignore
-	/* int msgId = */ buf.getInt();
-	setAmbientLight(buf.getColor());
-    }
+	public MVByteBuffer toBytes() {
+		int msgId = Engine.getEventServer().getEventID(this.getClass());
+		MVByteBuffer buf = new MVByteBuffer(20);
+		buf.putLong(0);
+		buf.putInt(msgId);
+		buf.putColor(getAmbientLight());
+		buf.flip();
+		return buf;
+	}
 
-    public String getName() {
-	return "AmbientLightEvent";
-    }
+	protected void parseBytes(MVByteBuffer buf) {
+		buf.rewind();
+		buf.getLong();
+		// ignore
+		/* int msgId = */ buf.getInt();
+		setAmbientLight(buf.getColor());
+	}
 
-    private Color color = null;
+	public String getName() {
+		return "AmbientLightEvent";
+	}
+
+	private Color color = null;
 }

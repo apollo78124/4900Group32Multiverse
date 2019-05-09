@@ -239,7 +239,7 @@ public class CommandMain
         return -1;
     }
 
-    static Set activeVms = null;
+    static Set<?> activeVms = null;
     
 }
 
