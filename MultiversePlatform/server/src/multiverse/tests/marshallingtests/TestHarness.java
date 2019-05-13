@@ -45,11 +45,11 @@ public class TestHarness
     }
 
     protected static void showInterfaces(Object object) {
-        Class c = object.getClass();
+        Class<?> c = object.getClass();
         java.lang.reflect.Type genSuper = c.getGenericSuperclass();
-        Class [] interfaces = c.getInterfaces();
+        Class<?> [] interfaces = c.getInterfaces();
         String s = "";
-        for (Class iface : interfaces) {
+        for (Class<?> iface : interfaces) {
             if (s != "")
                 s += ", ";
             s += iface.getClass().getName();
@@ -182,7 +182,7 @@ public class TestHarness
         buf.flip();
         GTestClass11 gt11Revived = new GTestClass11();
         gt11Revived = (GTestClass11)MarshallingRuntime.unmarshalObject(buf);
-        HashMap revivedMap = (HashMap<String, Object>)gt11Revived.foo;
+        HashMap<String,Object> revivedMap = (HashMap<String, Object>)gt11Revived.foo;
         if (revivedMap.get("Yow").equals(map.get("Yow")))
             testPassed("test11", bufSize);
         else

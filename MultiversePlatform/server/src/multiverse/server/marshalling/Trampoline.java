@@ -126,7 +126,7 @@ public class Trampoline {
         Log.debug("Using property file " + PropertyFileReader.propFile);
         Log.debug("Properties are:");
         String sKey;
-        Enumeration en = properties.propertyNames();
+        Enumeration<?> en = properties.propertyNames();
         while (en.hasMoreElements()) {
             sKey = (String)en.nextElement();
             Log.debug("    " + sKey + " = " + properties.getProperty(sKey));
