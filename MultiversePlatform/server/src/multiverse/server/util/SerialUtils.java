@@ -64,8 +64,8 @@ public class SerialUtils {
     private static final byte valueTypeObject = 100;
     
     private static Map<Class<?>, Byte> classToValueTypeMap = null;
-
-    private static void initializeClassToValueTypeMap() {
+    
+	private static void initializeClassToValueTypeMap() {
         Long v1 = 3L;
         Integer v2 = 3;
         Boolean v3 = true;
@@ -92,7 +92,8 @@ public class SerialUtils {
         if (val == null)
             out.writeByte(valueTypeNull);
         else {
-            Class<?> c = val.getClass();
+            Class<? extends Object> c = val.getClass();
+
             Byte index = classToValueTypeMap.get(c);
             if (index == null)
                 index = valueTypeObject;
@@ -158,7 +159,7 @@ public class SerialUtils {
                 break;
             case valueTypeHashMap:
                 out.writeByte(valueTypeHashMap);
-                HashMap<String, Object> map = (HashMap<String, Object>)val;
+                @SuppressWarnings("unchecked") HashMap<String, Object> map = (HashMap<String, Object>)val;
                 out.writeInt(map.size());
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
                     out.writeUTF(entry.getKey());

@@ -1171,7 +1171,8 @@ public class EnginePlugin implements MessageCallback, StatusMapCallback {
          * @param m The GenerateSubObjectMessage message
          * @param flags The message flags
          */
-        public boolean processMessage(Message m, int flags) {
+        @SuppressWarnings("unused")
+		public boolean processMessage(Message m, int flags) {
             ObjectManagerClient.GenerateSubObjectMessage msg = (ObjectManagerClient.GenerateSubObjectMessage) m;
             Template template = msg.getTemplate();
             Namespace namespace = msg.getNamespace();

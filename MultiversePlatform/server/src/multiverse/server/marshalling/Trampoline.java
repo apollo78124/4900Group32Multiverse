@@ -44,9 +44,9 @@ import java.lang.reflect.InvocationTargetException;
  */
 public class Trampoline {
 
-    protected static Class getClassForClassName(String className) {
+    protected static Class<?> getClassForClassName(String className) {
         try {
-            Class c = Class.forName(className);
+            Class<?> c = Class.forName(className);
             return c;
         }
         catch (Exception e) {
@@ -152,7 +152,7 @@ public class Trampoline {
             System.exit(1);
         }
 
-        Class cl = getClassForClassName(mainClassName);
+        Class<?> cl = getClassForClassName(mainClassName);
         if (cl == null) {
             System.out.println("Loading of class '" + mainClassName + "' returned null!");
             return;
@@ -165,7 +165,7 @@ public class Trampoline {
             /* Method main is sane ?
              */
             int m = method.getModifiers();
-            Class r = method.getReturnType();
+            Class<?> r = method.getReturnType();
             if (!(Modifier.isPublic(m) && Modifier.isStatic(m)) || Modifier.isAbstract(m)
                     || (r != Void.TYPE)) {
                 throw new NoSuchMethodException();

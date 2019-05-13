@@ -467,7 +467,8 @@ public class GroupPlugin extends EnginePlugin {
      * @param setterOid - Requesting Player
      * @param groupOid - Identifier for the group the target and setter belong to
      */
-    protected boolean HandleSetAllowedSpeaker(long targetOid, long setterOid, long groupOid){
+    @SuppressWarnings("unused")
+	protected boolean HandleSetAllowedSpeaker(long targetOid, long setterOid, long groupOid){
         MarsGroup group = GetGroup(groupOid);
         MarsGroupMember target = group.GetGroupMember(targetOid);
 
