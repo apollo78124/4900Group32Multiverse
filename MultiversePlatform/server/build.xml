@@ -3,6 +3,9 @@
         builds all multiverse server components
     </description>
 
+  <presetdef name="javac">
+    <javac includeantruntime="false" />
+  </presetdef>
   <!-- set global properties for this build -->
   <property name="src" location="src"/>
   <property name="build" location="build"/>
@@ -107,7 +110,7 @@
     />
     <jar destfile="${dist}/lib/injected.jar"
       basedir="${build}/multiverse/"
-      includes="mars/core/AbilityActivateHook.class, mars/core/EquipActivateHook.class, mars/objects/**, mars/plugins/**, msgsys/**, server/engine/**, server/math/**, server/messages/**, server/objects/**, server/pathing/**, server/util/**"
+      includes="mars/core/AbilityActivateHook.class, mars/core/EquipActivateHook.class, mars/objects/CollectionQuestState$CollectionGoalStatus.class, mars/objects/CollectionQuestState.class, mars/objects/KillQuestState.class, mars/objects/MarsAttachSocket.class, mars/objects/MarsCollectionQuest$CollectionGoal.class, mars/objects/MarsCollectionQuest.class, mars/objects/MarsEquipInfo.class, mars/objects/MarsEquipSlop.class, mars/objects/MarsKillQuest$KillGoal.class, mars/objects/MarsKillQuest.class, mars/objects/MarsQuest.class, mars/objects/MarsStat.class, mars/objects/QuestState.class, mars/plugins/AnimationClient$InvokeEffectMessage.class, mars/plugins/CombatClient$AbilityProgressMessage.class, mars/plugins/CombatClient$AbilityUpdateMessage.class, mars/plugins/CombatClient$AutoAttackMessage.class, mars/plugins/CombatClient$CombatTargetMessage.class, mars/plugins/CombatClient$CooldownMessage.class, mars/plugins/CombatClient$DamageMessage.class, mars/plugins/CombatClient$ReleaseObjectMessage.class, mars/plugins/CombatClient$StartAbilityMessage.class, mars/plugins/MarsInventoryPlugin$EquipMap.class, mars/plugins/QuestClient$ConcludeMessage.class, mars/plugins/QuestClient$GetQuestStatusMessage.class, mars/plugins/QuestClient$NewQuestStateMessage.class, mars/plugins/QuestClient$QuestResponseMessage.class, mars/plugins/QuestClient$RequestConcludeMessage.class, mars/plugins/QuestClient$RequestQuestInfoMessage.class, mars/plugins/QuestClient$StateStatusChangeMessage.class, msgsys/**, server/engine/**, server/math/**, server/messages/**, server/objects/**, server/pathing/**, server/util/**"
     />
 
     <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
@@ -143,6 +146,7 @@
     <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
       basedir="${build}/"
       includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
+      excludes="msgsys/AgentHangle.class, msgsys/AgentInfo.class, msgsys/DefaultFilterTable.class, msgsys/DomainCommand.class, msgsys/DomainServer$AgentHandler.class, msgsys/DomainServer$DomainThreadFactory.class, msgsys/DomainServer$PluginDependencyWatcher.class, msgsys/DomainServer$PluginSpec.class, msgsys/DomainServer$PluginStartGroup.class, msgsys/DomainServer$TimeoutRunnable.class, msgsys/DomainServer.class, msgsys/FilterTable.class, msgsys/HasTarget.class, msgsys/IFilter.class, msgsys/IMessageTypeFilter.class, msgsys/ITargetSessionId.class, msgsys/MessageAgent$AgentConnectionThreadFactory.class, msgsys/MessageAgent$AgentConnector.class, msgsys/MessageAgent$AsyncRPSResponse.class, msgsys/MessageAgent$DomainClient.class, msgsys/MessageAgent$MessageAgentStatsLogger.class, msgsys/MessageAgent$MessageMarshaller.class, msgsys/MessageAgent$NewConnectionHandler.class, msgsys/MessageAgent$PendingRPC.class, msgsys/MessageAgent$RegisteredSubscription.class, msgsys/MessageAgent$RemoteAgent.class, msgsys/MessageAgent$RemoteSubscription.class, msgsys/ MessageAgent$ResponseThreadFactory.class, msgsys/MessageAgent$SelfMessageHandler.class, msgsys/MessageAgent.class, msgsys/MessageCallback.class, msgsys/MessageCatalog.class, msgsys/MessageDispatch.class, msgsys/MessageIO$Callback.class, msgsys/MessageIO.class, msgsys/MessageType.class, msgsys/MessageTypes.class, msgsys/MultipleRecipientsException.class, msgsys/NoRecipientsException.class, msgsys/ResponseCallback.class, msgsys/RPCException, msgsys/Subscription.class, msgsys/SubscriptionHandle.class"
     />
   </target>
 
