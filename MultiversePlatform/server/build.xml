@@ -36,7 +36,7 @@
   <target name="compile" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" 
+    <javac srcdir="${src}"
            destdir="${build}"
            excludes="multiverse/webapps/**,multiverse/testclient/**,multiverse/**/eventhandlers/**,**/QuestStatusChanged.java"
            listfiles="yes"
@@ -52,7 +52,7 @@
   <target name="testclient" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}" 
+    <javac srcdir="${src}"
            destdir="${build}"
            excludes="multiverse/webapps/**"
            listfiles="yes"
@@ -67,7 +67,7 @@
   <target name="webapps" depends="init"
         description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}/multiverse/webapps" 
+    <javac srcdir="${src}/multiverse/webapps"
            destdir="${build}"
 	   fork="${build.fork}"
            debug="false"/>
@@ -81,7 +81,7 @@
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
 <!--
-    <jar jarfile="${dist}/lib/multiverse.jar" 
+    <jar jarfile="${dist}/lib/multiverse.jar"
          basedir="${build}"/>
 -->
 
@@ -105,11 +105,21 @@
        basedir="${build}/"
        includes="multiverse/mars/**"
     />
+    <jar destfile="${dist}/lib/injected.jar"
+      basedir="${build}/multiverse/"
+      includes="mars/core/AbilityActivateHook.class, mars/core/EquipActivateHook.class, mars/objects/**, mars/plugins/**, msgsys/**, server/engine/**, server/math/**, server/messages/**, server/objects/**, server/pathing/**, server/util/**"
+    />
 
+    <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
+      basedir="${build}/"
+      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
+    />
+    <!--commented temporarily?-->
+<!--
     <uptodate property="dont_need_inject" targetfile="${dist}/lib/injected.jar">
        <srcfiles dir   = "${dist}/lib" includes="m*.jar" />
     </uptodate>
-
+-->
   </target>
   <target name="dist" depends="buildjars" unless="dont_need_inject"
         description="generate the distribution" >
@@ -126,13 +136,13 @@
     </exec>
 
     <jar destfile="${dist}/lib/injected.jar"
-       basedir="${inject}/"
-       includes="**"
+      basedir="${build}/"
+      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
     />
 
     <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
-       basedir="${inject}/"
-       includes="**"
+      basedir="${build}/"
+      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
     />
   </target>
 
