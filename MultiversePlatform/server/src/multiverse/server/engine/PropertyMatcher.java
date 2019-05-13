@@ -41,7 +41,7 @@ public class PropertyMatcher implements Matcher
 
     public boolean match(Object object)
     {
-        Map target = (Map) object;
+        Map<?, ?> target = (Map<?, ?>) object;
         if (target == null) {
             if (queryProps.size() == 0)
                 return true;

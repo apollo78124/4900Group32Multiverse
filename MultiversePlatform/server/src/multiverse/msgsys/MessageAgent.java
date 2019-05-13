@@ -1157,7 +1157,7 @@ public class MessageAgent implements MessageIO.Callback, TcpAcceptCallback,
             messageIO.outputReady();
     }
 
-    PendingRPC setupInternalRPC(Message message, List producers)
+    PendingRPC setupInternalRPC(Message message, List<?> producers)
     {
         message.setRPC();
         PendingRPC rpc = new PendingRPC();

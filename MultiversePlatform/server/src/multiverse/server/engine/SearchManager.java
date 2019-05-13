@@ -113,7 +113,7 @@ public class SearchManager
 
             GenericResponseMessage response = (GenericResponseMessage) rr;
             
-            Collection list = (Collection)response.getData();
+            Collection<?> list = (Collection<?>)response.getData();
             if (list != null)
                 results.addAll(list);
 
@@ -121,7 +121,7 @@ public class SearchManager
                 this.notify();
         }
 
-        Collection results = new LinkedList();
+        Collection<Object> results = new LinkedList<Object>();
         SearchMessage searchMessage;
         int responders = 0;
     }

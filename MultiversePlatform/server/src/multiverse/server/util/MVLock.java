@@ -120,7 +120,7 @@ public class MVLock extends ReentrantLock {
     /**
      * returns a copy of the stacktracelist
      */
-    synchronized List getStackTraceList() {
+    synchronized List<LStack> getStackTraceList() {
 	return new LinkedList<LStack>(stackTraceList);
     }
 
