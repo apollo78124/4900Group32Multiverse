@@ -75,7 +75,7 @@ public class SearchManager
                 information will be returned.
         @return Collection of matching objects.
     */
-    public static Collection searchObjects(ObjectType objectType,
+    public static Collection<?> searchObjects(ObjectType objectType,
         SearchClause searchClause, SearchSelection selection)
     {
         SearchMessage message = new SearchMessage(objectType,
@@ -92,7 +92,8 @@ public class SearchManager
             searchMessage = message;
         }
         
-        public Collection getResults()
+        @SuppressWarnings("rawtypes")
+		public Collection getResults()
         {
             int expectedResponses = Engine.getAgent().sendBroadcastRPC(searchMessage, this);
             synchronized (this) {
@@ -107,13 +108,15 @@ public class SearchManager
             return results;
         }
 
-        public synchronized void handleResponse(ResponseMessage rr)
+        @SuppressWarnings("unchecked")
+		public synchronized void handleResponse(ResponseMessage rr)
         {
             responders --;
 
             GenericResponseMessage response = (GenericResponseMessage) rr;
             
-            Collection list = (Collection)response.getData();
+            @SuppressWarnings("rawtypes")
+			Collection list = (Collection<?>)response.getData();
             if (list != null)
                 results.addAll(list);
 
@@ -121,7 +124,8 @@ public class SearchManager
                 this.notify();
         }
 
-        Collection results = new LinkedList();
+        @SuppressWarnings("rawtypes")
+		Collection<?> results = new LinkedList();
         SearchMessage searchMessage;
         int responders = 0;
     }
@@ -146,8 +150,8 @@ public class SearchManager
         @param matcherFactory Can return a Matcher object capable of
                 running the SearchClause against the instance object.
     */
-    public static void registerMatcher(Class searchClauseClass,
-        Class instanceClass, MatcherFactory matcherFactory)
+    public static void registerMatcher(Class<? extends SearchClause> searchClauseClass,
+        Class<?> instanceClass, MatcherFactory matcherFactory)
     {
         matchers.put(new MatcherKey(searchClauseClass,instanceClass),
             matcherFactory);
@@ -159,7 +163,7 @@ public class SearchManager
         @param instanceClass Instance object class.
     */
     public static Matcher getMatcher(SearchClause searchClause,
-        Class instanceClass)
+        Class<?> instanceClass)
     {
         MatcherFactory matcherFactory;
         matcherFactory = matchers.get(new MatcherKey(searchClause.getClass(),
@@ -172,13 +176,14 @@ public class SearchManager
     }
 
     static class MatcherKey {
-        public MatcherKey(Class qt, Class it)
+        public MatcherKey(Class<? extends SearchClause> qt, Class<?> it)
         {
             queryType = qt;
             instanceType = it;
         }
-        public Class queryType;
-        public Class instanceType;
+        public Class<? extends SearchClause> queryType;
+
+		public Class<?> instanceType;
         public boolean equals(Object key)
         {
             return (((MatcherKey)key).queryType == queryType) &&
@@ -201,7 +206,7 @@ public class SearchManager
         {
             SearchMessage message = (SearchMessage) msg;
 
-            Collection result = null;
+            Collection<?> result = null;
             try {
                 result = searchable.runSearch(
                     message.getSearchClause(), message.getSearchSelection());

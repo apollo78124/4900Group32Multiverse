@@ -31,7 +31,7 @@ package multiverse.server.engine;
 import multiverse.server.util.*;
 
 public class GenericBehaviorFactory implements BehaviorFactory {
-    public GenericBehaviorFactory(Class c) {
+    public GenericBehaviorFactory(Class<?> c) {
 	bhvClass = c;	
     }
     public Behavior generate() {
@@ -44,7 +44,7 @@ public class GenericBehaviorFactory implements BehaviorFactory {
 	}
     }
 
-    protected Class bhvClass = null;
+    protected Class<?> bhvClass = null;
 
     private static final long serialVersionUID = 1L;
 }

@@ -10,7 +10,7 @@
   <property name="src" location="src"/>
   <property name="build" location="build"/>
   <property name="inject" location="inject"/>
-  <property name="dist"  location="dist"/>
+  <property name="dist" location="dist"/>
   <property name="bin" location="bin"/>
   <property name="dist-external"  location="dist-external"/>
   <property name="build.fork"  value="yes"/>

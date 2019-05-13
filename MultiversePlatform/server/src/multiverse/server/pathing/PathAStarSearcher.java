@@ -148,7 +148,7 @@ public class PathAStarSearcher {
         return true;
     }
 
-    protected class PathSearchNodeCostComparator implements Comparator {
+    protected class PathSearchNodeCostComparator implements Comparator<Object> {
         public PathSearchNodeCostComparator() {
         }
 

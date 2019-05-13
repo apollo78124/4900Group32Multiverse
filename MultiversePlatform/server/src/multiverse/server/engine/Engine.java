@@ -643,7 +643,7 @@ public class Engine
         try {
             if (Log.loggingDebug)
                 log.debug("Engine.registerPlugin: loading class " + className);
-            Class enginePluginClass = Class.forName(className);
+            Class<?> enginePluginClass = Class.forName(className);
             EnginePlugin enginePlugin = (EnginePlugin) enginePluginClass.newInstance();
             registerPlugin(enginePlugin);
             return enginePlugin;
@@ -1167,7 +1167,7 @@ public class Engine
      */
     protected static Method getCPUMethod() {
         try {
-            Class operatingSystemMXBean = null;
+            Class<?> operatingSystemMXBean = null;
             operatingSystemMXBean = getParentInterface(mxbean.getClass(),
                 "com.sun.management.OperatingSystemMXBean");
             if (operatingSystemMXBean == null) {
@@ -1212,14 +1212,16 @@ public class Engine
      * @param name The name of the interface.
      * @return The Class object representing the parent interface.
      */
-    protected static Class getParentInterface(Class cl, String name)
+    protected static Class<? extends Object> getParentInterface(Class<? extends Object> cl, String name)
     {
         if (cl.getName().equals(name)) {
             return cl;
         }
-        Class[] interfaces = cl.getInterfaces();
+        @SuppressWarnings("rawtypes")
+		Class[] interfaces = cl.getInterfaces();
         for (int ii = 0; ii < interfaces.length; ii++) {
-            Class match = getParentInterface(interfaces[ii],name);
+            @SuppressWarnings("unchecked")
+			Class<?> match = getParentInterface(interfaces[ii],name);
             if (match != null)
                 return match;
         }
