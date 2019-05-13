@@ -34,7 +34,7 @@ public class SQThreadPool implements Runnable {
     static final int MAX_THREADS = 40;
     static final int MIN_RUN_TIME = 15000;  // 5 seconds
 
-    public SQThreadPool(SquareQueue sq, SQCallback callback) {
+    public SQThreadPool(SquareQueue<Long,String> sq, SQCallback<Long,String> callback) {
 	this.sq = sq;
 	this.callback = callback;
 
@@ -113,7 +113,7 @@ public class SQThreadPool implements Runnable {
         String title = "SQThreadPool " + sq.getName();
 	selfPool.set(this);
 	threadStatus.set(new ThreadStatus(STATUS_NORMAL));
-        SquareQueue.SubQueue pq = null;
+        SquareQueue<Long,String>.SubQueue pq = null;
 	long startTime = System.currentTimeMillis();
 
         while (true) {
@@ -131,7 +131,7 @@ public class SQThreadPool implements Runnable {
 			synchronized (this) {
 			    running++;
 			}
-                        callback.doWork(pq.getHeadValue(),pq.getKey());
+                        callback.doWork(pq.getKey(),pq.getHeadValue()); //BCITChange it was swapped around
 //                         if (Log.loggingDebug)
 //                             Log.debug(fullTitle + ": finished callback");
                     }
@@ -170,12 +170,12 @@ public class SQThreadPool implements Runnable {
 	}
     }
 
-    public SquareQueue getSquareQueue() {
+    public SquareQueue<Long, String> getSquareQueue() {
 	return sq;
     }
 
-    protected SquareQueue sq;
-    protected SQCallback callback;
+    protected SquareQueue<Long, String> sq;
+    protected SQCallback<Long, String> callback;
 
     protected int total = 0;
     protected int running = 0;
