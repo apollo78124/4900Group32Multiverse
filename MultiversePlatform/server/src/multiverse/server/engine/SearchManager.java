@@ -75,7 +75,7 @@ public class SearchManager
                 information will be returned.
         @return Collection of matching objects.
     */
-    public static Collection searchObjects(ObjectType objectType,
+    public static Collection<?> searchObjects(ObjectType objectType,
         SearchClause searchClause, SearchSelection selection)
     {
         SearchMessage message = new SearchMessage(objectType,
@@ -92,7 +92,8 @@ public class SearchManager
             searchMessage = message;
         }
         
-        public Collection getResults()
+        @SuppressWarnings("rawtypes")
+		public Collection getResults()
         {
             int expectedResponses = Engine.getAgent().sendBroadcastRPC(searchMessage, this);
             synchronized (this) {
@@ -107,13 +108,15 @@ public class SearchManager
             return results;
         }
 
-        public synchronized void handleResponse(ResponseMessage rr)
+        @SuppressWarnings("unchecked")
+		public synchronized void handleResponse(ResponseMessage rr)
         {
             responders --;
 
             GenericResponseMessage response = (GenericResponseMessage) rr;
             
-            Collection list = (Collection)response.getData();
+            @SuppressWarnings("rawtypes")
+			Collection list = (Collection<?>)response.getData();
             if (list != null)
                 results.addAll(list);
 
@@ -121,7 +124,8 @@ public class SearchManager
                 this.notify();
         }
 
-        Collection results = new LinkedList();
+        @SuppressWarnings("rawtypes")
+		Collection<?> results = new LinkedList();
         SearchMessage searchMessage;
         int responders = 0;
     }
@@ -202,7 +206,7 @@ public class SearchManager
         {
             SearchMessage message = (SearchMessage) msg;
 
-            Collection result = null;
+            Collection<?> result = null;
             try {
                 result = searchable.runSearch(
                     message.getSearchClause(), message.getSearchSelection());

@@ -187,7 +187,7 @@ public class Triangulate {
         return 0;
     }
 
-    public class PolyVert implements Comparable, Cloneable {
+    public class PolyVert implements Comparable<Object>, Cloneable {
         public PolyVert()
         {}
     
@@ -1004,7 +1004,7 @@ public class Triangulate {
         }
     }
 
-    public class TriPoly implements Comparable {
+    public class TriPoly implements Comparable<Object> {
         int loop;	// index of first vert
         int leftmostVert;
         int vertexCount;

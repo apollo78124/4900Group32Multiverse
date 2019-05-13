@@ -43,7 +43,7 @@ public interface Searchable
             how the result collection is structured.
         @return Collection of matching objects.
     */
-    public Collection runSearch(SearchClause searchClause,
+    public Collection<?> runSearch(SearchClause searchClause,
         SearchSelection selection);
 }
 
