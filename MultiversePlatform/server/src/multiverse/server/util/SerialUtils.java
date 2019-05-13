@@ -63,9 +63,12 @@ public class SerialUtils {
     
     private static final byte valueTypeObject = 100;
     
-    private static Map<Class, Byte> classToValueTypeMap = null;
+    @SuppressWarnings("rawtypes")
+	private static Map<Class, Byte> classToValueTypeMap = null;
 
-    private static void initializeClassToValueTypeMap() {
+    
+	@SuppressWarnings("rawtypes")
+	private static void initializeClassToValueTypeMap() {
         Long v1 = 3L;
         Integer v2 = 3;
         Boolean v3 = true;
@@ -80,9 +83,9 @@ public class SerialUtils {
         classToValueTypeMap.put((new MVVector()).getClass(), valueTypeMVVector);
         classToValueTypeMap.put((new Quaternion()).getClass(), valueTypeQuaternion);
         classToValueTypeMap.put((new Color()).getClass(), valueTypeColor);
-        classToValueTypeMap.put((new LinkedList()).getClass(), valueTypeLinkedList);
-        classToValueTypeMap.put((new HashSet()).getClass(), valueTypeHashSet);
-        classToValueTypeMap.put((new HashMap()).getClass(), valueTypeHashMap);
+        classToValueTypeMap.put((new LinkedList<Object>()).getClass(), valueTypeLinkedList);
+        classToValueTypeMap.put((new HashSet<Object>()).getClass(), valueTypeHashSet);
+        classToValueTypeMap.put((new HashMap<Object, Object>()).getClass(), valueTypeHashMap);
     }
     
     public static void writeEncodedObject(ObjectOutputStream out, Object val)
@@ -92,7 +95,7 @@ public class SerialUtils {
         if (val == null)
             out.writeByte(valueTypeNull);
         else {
-            Class c = val.getClass();
+            Class<? extends Object> c = val.getClass();
             Byte index = classToValueTypeMap.get(c);
             if (index == null)
                 index = valueTypeObject;
@@ -149,7 +152,7 @@ public class SerialUtils {
                 break;
             case valueTypeHashSet:
                 out.writeByte(valueTypeHashSet);
-                HashSet set = (HashSet)val;
+                HashSet<?> set = (HashSet<?>)val;
                 out.writeInt(set.size());
                 for (Object obj : set) {
                     // Recurse
@@ -158,7 +161,7 @@ public class SerialUtils {
                 break;
             case valueTypeHashMap:
                 out.writeByte(valueTypeHashMap);
-                HashMap<String, Object> map = (HashMap<String, Object>)val;
+                @SuppressWarnings("unchecked") HashMap<String, Object> map = (HashMap<String, Object>)val;
                 out.writeInt(map.size());
                 for (Map.Entry<String, Object> entry : map.entrySet()) {
                     out.writeUTF(entry.getKey());

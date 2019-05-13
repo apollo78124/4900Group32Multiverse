@@ -146,8 +146,8 @@ public class SearchManager
         @param matcherFactory Can return a Matcher object capable of
                 running the SearchClause against the instance object.
     */
-    public static void registerMatcher(Class searchClauseClass,
-        Class instanceClass, MatcherFactory matcherFactory)
+    public static void registerMatcher(Class<? extends SearchClause> searchClauseClass,
+        Class<?> instanceClass, MatcherFactory matcherFactory)
     {
         matchers.put(new MatcherKey(searchClauseClass,instanceClass),
             matcherFactory);
@@ -159,7 +159,7 @@ public class SearchManager
         @param instanceClass Instance object class.
     */
     public static Matcher getMatcher(SearchClause searchClause,
-        Class instanceClass)
+        Class<?> instanceClass)
     {
         MatcherFactory matcherFactory;
         matcherFactory = matchers.get(new MatcherKey(searchClause.getClass(),
@@ -172,13 +172,14 @@ public class SearchManager
     }
 
     static class MatcherKey {
-        public MatcherKey(Class qt, Class it)
+        public MatcherKey(Class<? extends SearchClause> qt, Class<?> it)
         {
             queryType = qt;
             instanceType = it;
         }
-        public Class queryType;
-        public Class instanceType;
+        public Class<? extends SearchClause> queryType;
+
+		public Class<?> instanceType;
         public boolean equals(Object key)
         {
             return (((MatcherKey)key).queryType == queryType) &&

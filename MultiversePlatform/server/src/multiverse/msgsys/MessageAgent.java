@@ -920,7 +920,7 @@ public class MessageAgent implements MessageIO.Callback, TcpAcceptCallback,
                 remoteSub.getTrigger().trigger(message,remoteSub.filter,this);
         }
 
-        Collection agents = new ArrayList(1);
+        Collection<AgentHandle> agents = new ArrayList<AgentHandle>(1);
         agents.add(destination);
         sendMessageToList(message, agents);
         return true;

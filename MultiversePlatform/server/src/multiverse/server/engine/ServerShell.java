@@ -223,7 +223,7 @@ public class ServerShell implements MessageCallback
 
         public void run() {
             MessageType msgType=MSG_TYPE_TEST0;
-            Class msgClass = Message.class;
+            Class<?> msgClass = Message.class;
             long oid = 0;
             long noid = 0;
             int interval = 0;
@@ -348,7 +348,7 @@ public class ServerShell implements MessageCallback
 
         public void run() {
             MessageType msgType=MSG_TYPE_TEST4;
-            Class msgClass = Message.class;
+            Class<?> msgClass = Message.class;
             long oid = 0;
             long noid = 0;
             boolean broadcast = false;

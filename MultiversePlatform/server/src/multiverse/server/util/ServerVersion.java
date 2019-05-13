@@ -117,7 +117,7 @@ public class ServerVersion {
             String defaultValue)
     {
         try {
-            Class buildInfo = Class.forName("multiverse.server.util.BuildInfo");
+            Class<?> buildInfo = Class.forName("multiverse.server.util.BuildInfo");
             Field stringField = buildInfo.getField(fieldName);
             return (String) stringField.get(null);
         }

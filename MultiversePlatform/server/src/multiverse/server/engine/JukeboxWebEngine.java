@@ -231,7 +231,7 @@ public class JukeboxWebEngine extends HttpServlet {
     private synchronized boolean getTracks() {
 	JukeboxWebPlugin jukeboxWebPlugin = (JukeboxWebPlugin)Engine.getPlugin("JukeboxWebPlugin");
 	if (jukeboxWebPlugin == null) return false;
-	ArrayList trackData = jukeboxWebPlugin.getTracks();
+	ArrayList<?> trackData = jukeboxWebPlugin.getTracks();
 	if (trackData == null) return false;
 	nameList.clear();
 	typeList.clear();
@@ -239,7 +239,7 @@ public class JukeboxWebEngine extends HttpServlet {
 	costList.clear();
 	descriptionList.clear();
 	for (int i = trackData.size(); i-- > 0;) {
-	    HashMap trackInfo = (HashMap)trackData.get(i);
+	    HashMap<?, ?> trackInfo = (HashMap<?, ?>)trackData.get(i);
 	    nameList.add((String)trackInfo.get("name"));
 	    typeList.add((String)trackInfo.get("type"));
 	    urlList.add((String)trackInfo.get("url"));

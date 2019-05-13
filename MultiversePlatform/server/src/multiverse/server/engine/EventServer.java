@@ -49,7 +49,7 @@ public class EventServer {
 	int eventID = buf.getInt();
         buf.rewind();
 
-	Class eventClass = null;
+	Class<?> eventClass = null;
 
 	lock.lock();
 	try {
@@ -97,7 +97,7 @@ public class EventServer {
     public void registerEventId(int id, String className) {
 	lock.lock();
 	try {
-	    Class eventClass = Class.forName(className);
+	    Class<?> eventClass = Class.forName(className);
             if (Log.loggingDebug)
                 Log.debug("loaded event, event id#" +
                           id + " maps to '" + className + "'");
@@ -113,7 +113,7 @@ public class EventServer {
 	}
     }
 
-    public Class getEventClass(int id) {
+    public Class<?> getEventClass(int id) {
         lock.lock();
         try {
             return eventIdMapping.get(id);
@@ -126,7 +126,7 @@ public class EventServer {
     /**
      * returns the id that was registered for the passed in class
      */
-    public int getEventID(Class eventClass) {
+    public int getEventID(Class<?> eventClass) {
 	lock.lock();
 	try {
 	    Integer id = eventClassMapping.get(eventClass);
@@ -142,7 +142,7 @@ public class EventServer {
 
     public int getEventID(String className) {
 	try {
-	    Class eventClass = Class.forName(className);
+	    Class<?> eventClass = Class.forName(className);
 	    return getEventID(eventClass);
 	}
 	catch(Exception e) {
@@ -153,12 +153,14 @@ public class EventServer {
     // maps from an event id to the event class
     // used when servers gets a msg and needs to look up what event to
     // deserialize it with
-    private Map<Integer, Class> eventIdMapping = new HashMap<Integer,Class>();
+    @SuppressWarnings("rawtypes")
+	private Map<Integer, Class> eventIdMapping = new HashMap<Integer,Class>();
 
     // maps the reverse - from the event class to the id, so that
     // the event.toBytes() method knows what id it should use when
     // making the byte buffer
-    private Map<Class, Integer> eventClassMapping = 
+    @SuppressWarnings("rawtypes")
+	private Map<Class, Integer> eventClassMapping = 
 	new HashMap<Class,Integer>();
 
     transient Lock lock = LockFactory.makeLock("EventServerLock");
