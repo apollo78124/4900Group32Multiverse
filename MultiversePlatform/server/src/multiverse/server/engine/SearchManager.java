@@ -108,15 +108,13 @@ public class SearchManager
             return results;
         }
 
-        @SuppressWarnings("unchecked")
 		public synchronized void handleResponse(ResponseMessage rr)
         {
             responders --;
 
             GenericResponseMessage response = (GenericResponseMessage) rr;
             
-            @SuppressWarnings("rawtypes")
-			Collection list = (Collection<?>)response.getData();
+            Collection<?> list = (Collection<?>)response.getData();
             if (list != null)
                 results.addAll(list);
 
@@ -124,8 +122,7 @@ public class SearchManager
                 this.notify();
         }
 
-        @SuppressWarnings("rawtypes")
-		Collection<?> results = new LinkedList();
+        Collection<Object> results = new LinkedList<Object>();
         SearchMessage searchMessage;
         int responders = 0;
     }

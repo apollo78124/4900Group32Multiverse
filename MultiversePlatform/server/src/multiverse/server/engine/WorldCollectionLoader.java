@@ -261,7 +261,7 @@ public class WorldCollectionLoader extends WorldFileLoader
                 overrideTemplate.put(Namespace.WORLD_MANAGER, WorldManagerClient.TEMPL_SOUND_DATA_LIST, (Serializable)soundData);
             }
             List<Node> partEffectNodes = XMLHelper.getMatchingChildren(objNode, "ParticleEffect");
-            LinkedList<LinkedList> particles = new LinkedList<LinkedList>();
+            LinkedList<LinkedList<Object>> particles = new LinkedList<LinkedList<Object>>();
             for (Node partEffectNode : partEffectNodes) {
                 LinkedList<Object> particleData = new LinkedList<Object>();
                 String peName = XMLHelper.getAttribute(partEffectNode, "ParticleEffectName");

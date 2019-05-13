@@ -153,7 +153,7 @@ public class MVLock extends ReentrantLock {
 	// stracktrace
 	synchronized(lockSet) {
 	    System.err.println("MVLock: going through global lock set to print debug info, total number of locks: " + lockSet.size());
-	    Iterator iter = lockSet.iterator();
+	    Iterator<MVLock> iter = lockSet.iterator();
 	    int i=0;
 	    while (iter.hasNext()) {
 		MVLock l = (MVLock) iter.next();

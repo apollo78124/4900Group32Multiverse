@@ -1489,7 +1489,7 @@ public class Engine
     /**
      * The Interpolator instance associated with this Engine.
      */
-    private static Interpolator interpolator = null;
+    private static Interpolator<?> interpolator = null;
 
     /**
      * The PersistenceManager associated with this Engine instance.

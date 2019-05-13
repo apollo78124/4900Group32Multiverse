@@ -103,7 +103,7 @@ public class SimpleClient implements ClientConnection.MessageCallback {
                     Log.info("props has " + props.size() + " elements");
                     Log.debug("Properties are:");
                     String sKey;
-                    Enumeration en = props.propertyNames();
+                    Enumeration<?> en = props.propertyNames();
                     while (en.hasMoreElements()) {
                         sKey = (String)en.nextElement();
                             Log.debug("    " + sKey + " = " + props.getProperty(sKey) );
