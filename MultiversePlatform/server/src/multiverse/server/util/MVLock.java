@@ -32,6 +32,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.*;
 import java.util.concurrent.locks.ReentrantLock;
 
+import multiverse.server.util.MVLock.LStack;
+
 /**
  * this lock keeps track of its call stack.
  * it can also timeout and throw an exception (to help debug 
@@ -128,7 +130,7 @@ public class MVLock extends ReentrantLock {
     synchronized void getStackTraceString() {
 	System.err.println("-----------------------------------------\n" +
                            "stacktrace for lock " + getLockName() + "\n");
-	Iterator iter = stackTraceList.iterator();
+	Iterator<LStack> iter = stackTraceList.iterator();
 	while(iter.hasNext()) {
 	    LStack lstack = (LStack) iter.next();
 	    System.err.println("trace=" + lstack.toString());
@@ -151,7 +153,7 @@ public class MVLock extends ReentrantLock {
 	// stracktrace
 	synchronized(lockSet) {
 	    System.err.println("MVLock: going through global lock set to print debug info, total number of locks: " + lockSet.size());
-	    Iterator iter = lockSet.iterator();
+	    Iterator<MVLock> iter = lockSet.iterator();
 	    int i=0;
 	    while (iter.hasNext()) {
 		MVLock l = (MVLock) iter.next();
