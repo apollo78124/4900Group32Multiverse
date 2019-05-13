@@ -84,7 +84,8 @@ public class TransientAgent
         return true;
     }
 
-    private String agentName;
+    @SuppressWarnings("unused")
+	private String agentName;
     private String domainServer;
     private int domainPort;
     private MessageAgent agent;

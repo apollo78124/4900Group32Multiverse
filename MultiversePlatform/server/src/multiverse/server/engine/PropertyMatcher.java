@@ -41,7 +41,7 @@ public class PropertyMatcher implements Matcher
 
     public boolean match(Object object)
     {
-        Map target = (Map) object;
+        Map<?, ?> target = (Map<?, ?>) object;
         if (target == null) {
             if (queryProps.size() == 0)
                 return true;
@@ -49,7 +49,9 @@ public class PropertyMatcher implements Matcher
                 return false;
         }
 
-        for (Map.Entry queryProp : (Set<Map.Entry>) queryProps.entrySet()) {
+        @SuppressWarnings({ "rawtypes", "unchecked" })
+		Set<Map.Entry> entrySet = (Set<Map.Entry>) queryProps.entrySet();
+		for (Map.Entry<?,?> queryProp : entrySet) {
             Object queryKey = queryProp.getKey();
             Object queryValue = queryProp.getValue();
             Object targetValue = target.get(queryKey);

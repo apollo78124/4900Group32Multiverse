@@ -396,7 +396,7 @@ public class WorldCollectionLoader extends WorldFileLoader
                 overrideTemplate.put(Namespace.WORLD_MANAGER, WorldManagerClient.TEMPL_FOLLOWS_TERRAIN,
                                      Boolean.FALSE);
 
-                LinkedList<LinkedList> particles = new LinkedList<LinkedList>();
+                LinkedList<LinkedList<Object>> particles = new LinkedList<LinkedList<Object>>();
                 LinkedList<Object> particleData = new LinkedList<Object>();
                 particleData.add(peName);
                 particleData.add("base");

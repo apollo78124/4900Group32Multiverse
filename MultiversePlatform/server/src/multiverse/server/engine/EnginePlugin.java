@@ -891,7 +891,7 @@ public class EnginePlugin implements MessageCallback, StatusMapCallback {
         public boolean matchRemaining(Message msg) {
             if (msg instanceof TransferObjectMessage) {
                 TransferObjectMessage transferMsg = (TransferObjectMessage)msg;
-                Map propMap = transferMsg.getPropMap();
+                Map<?, ?> propMap = transferMsg.getPropMap();
                 return matchesMap(propMap, msg);
             }
             else
@@ -904,7 +904,7 @@ public class EnginePlugin implements MessageCallback, StatusMapCallback {
          * @param msg the message sent by the caller
          * @return true if the message matched
          */
-        abstract public boolean matchesMap(Map propMap, Message msg);
+        abstract public boolean matchesMap(Map<?, ?> propMap, Message msg);
     }
     
     MVMeter engPluginMeter = new MVMeter("EnginePluginOnMessageMeter");
