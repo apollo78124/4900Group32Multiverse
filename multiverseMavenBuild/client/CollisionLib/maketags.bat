@@ -1,1 +1,0 @@
-etags *.cs Test/*.cs
