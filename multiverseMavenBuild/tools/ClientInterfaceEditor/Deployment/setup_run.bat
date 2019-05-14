@@ -1,2 +1,0 @@
-MultiverseInterfaceStudio.exe /setup
-MultiverseInterfaceStudio.exe

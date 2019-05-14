@@ -183,7 +183,8 @@ public class TestHarness
         buf.flip();
         GTestClass11 gt11Revived = new GTestClass11();
         gt11Revived = (GTestClass11)MarshallingRuntime.unmarshalObject(buf);
-        HashMap<String,Object> revivedMap = (HashMap<String, Object>)gt11Revived.foo;
+        @SuppressWarnings("unchecked")
+		HashMap<String, Object> revivedMap = (HashMap<String, Object>)gt11Revived.foo;
         if (revivedMap.get("Yow").equals(map.get("Yow")))
             testPassed("test11", bufSize);
         else
