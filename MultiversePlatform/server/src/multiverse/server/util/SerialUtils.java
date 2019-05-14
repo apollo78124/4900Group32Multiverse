@@ -63,17 +63,14 @@ public class SerialUtils {
     
     private static final byte valueTypeObject = 100;
     
-    @SuppressWarnings("rawtypes")
-	private static Map<Class, Byte> classToValueTypeMap = null;
-
+    private static Map<Class<?>, Byte> classToValueTypeMap = null;
     
-	@SuppressWarnings("rawtypes")
 	private static void initializeClassToValueTypeMap() {
         Long v1 = 3L;
         Integer v2 = 3;
         Boolean v3 = true;
         Float v4 = 3.0f;
-        classToValueTypeMap = new HashMap<Class, Byte>();
+        classToValueTypeMap = new HashMap<Class<?>, Byte>();
         classToValueTypeMap.put((new String()).getClass(), valueTypeString);
         classToValueTypeMap.put(v1.getClass(), valueTypeLong);
         classToValueTypeMap.put(v2.getClass(), valueTypeInteger);
@@ -85,7 +82,7 @@ public class SerialUtils {
         classToValueTypeMap.put((new Color()).getClass(), valueTypeColor);
         classToValueTypeMap.put((new LinkedList<Object>()).getClass(), valueTypeLinkedList);
         classToValueTypeMap.put((new HashSet<Object>()).getClass(), valueTypeHashSet);
-        classToValueTypeMap.put((new HashMap<Object, Object>()).getClass(), valueTypeHashMap);
+        classToValueTypeMap.put((new HashMap<String,Object>()).getClass(), valueTypeHashMap);
     }
     
     public static void writeEncodedObject(ObjectOutputStream out, Object val)
@@ -96,6 +93,7 @@ public class SerialUtils {
             out.writeByte(valueTypeNull);
         else {
             Class<? extends Object> c = val.getClass();
+
             Byte index = classToValueTypeMap.get(c);
             if (index == null)
                 index = valueTypeObject;
@@ -143,7 +141,7 @@ public class SerialUtils {
                 break;
             case valueTypeLinkedList:
                 out.writeByte(valueTypeLinkedList);
-                LinkedList list = (LinkedList)val;
+                LinkedList<Object> list = (LinkedList<Object>)val;
                 out.writeInt(list.size());
                 for (Object obj : list) {
                     // Recurse
@@ -152,7 +150,7 @@ public class SerialUtils {
                 break;
             case valueTypeHashSet:
                 out.writeByte(valueTypeHashSet);
-                HashSet<?> set = (HashSet<?>)val;
+                HashSet<Object> set = (HashSet<Object>)val;
                 out.writeInt(set.size());
                 for (Object obj : set) {
                     // Recurse

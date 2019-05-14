@@ -36,6 +36,8 @@ import org.xml.sax.SAXParseException;
 import java.io.File;
 import java.io.IOException;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
+
 import java.util.*;
 import multiverse.server.util.MVRuntimeException;
 
@@ -110,7 +112,7 @@ public class Configuration {
     }
 
     // return a list of all matching children node
-    public static List getMatchingChildren(org.w3c.dom.Node node,
+    public static List<Node> getMatchingChildren(org.w3c.dom.Node node,
 					   String name) {
 	if (node == null) {
 	    return null;
