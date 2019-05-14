@@ -50,7 +50,7 @@ public class PropertyMatcher implements Matcher
         }
 
         //@SuppressWarnings({ "rawtypes", "unchecked" })
-		Set<Map.Entry> entrySet = (Set<Map.Entry>) queryProps.entrySet();
+		Set<Map.Entry<?,?>> entrySet = (Set<Map.Entry<?,?>>) queryProps.entrySet();
 		for (Map.Entry<?,?> queryProp : entrySet) {
             Object queryKey = queryProp.getKey();
             Object queryValue = queryProp.getValue();
