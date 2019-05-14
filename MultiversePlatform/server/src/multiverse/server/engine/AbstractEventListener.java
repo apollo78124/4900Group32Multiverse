@@ -33,6 +33,7 @@ import multiverse.server.objects.*;
 import java.rmi.*;
 import java.rmi.server.*;
 
+@SuppressWarnings("serial")
 public abstract class AbstractEventListener extends UnicastRemoteObject implements MVEventListener {
 
     /**

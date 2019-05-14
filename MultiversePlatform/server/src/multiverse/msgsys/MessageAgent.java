@@ -2105,9 +2105,11 @@ public class MessageAgent implements MessageIO.Callback, TcpAcceptCallback,
     // This class is obsolete; outgoing messages no longer go through
     // the square queue.  Preserving in case we want to put MVByteBuffers
     // through a square queue.
-    private class MessageMarshaller implements Runnable
+    @SuppressWarnings("unused")
+	private class MessageMarshaller implements Runnable
     {
-        MessageMarshaller()
+        @SuppressWarnings("unused")
+		MessageMarshaller()
         {
             (new Thread(this,"MessageMarshaller")).start();
         }

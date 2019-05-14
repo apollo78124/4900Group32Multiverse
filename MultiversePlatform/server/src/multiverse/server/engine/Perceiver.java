@@ -39,9 +39,7 @@ import java.util.*;
  */
 public abstract class Perceiver<ElementType extends QuadTreeElement<ElementType>> implements
         java.io.Serializable {
-    /**
-     * 
-     */
+  
     private static final long serialVersionUID = 1L;
 
     public Perceiver() {

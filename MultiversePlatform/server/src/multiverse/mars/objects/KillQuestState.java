@@ -176,5 +176,6 @@ public class KillQuestState extends QuestState {
     private int currentCount = 0;
     private static final Logger log = new Logger("KillQuestState");
     transient Long sub = null;
-    private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 }

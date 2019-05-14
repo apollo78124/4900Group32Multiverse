@@ -45,5 +45,6 @@ public class DeliveryQuestState extends QuestState {
         //return false;
     }
 
-    private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 }
