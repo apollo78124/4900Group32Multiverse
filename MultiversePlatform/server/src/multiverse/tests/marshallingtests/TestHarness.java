@@ -47,8 +47,8 @@ public class TestHarness
     protected static void showInterfaces(Object object) {
         Class<? extends Object> c = object.getClass();
         java.lang.reflect.Type genSuper = c.getGenericSuperclass();
-        @SuppressWarnings("rawtypes")
-		Class [] interfaces = c.getInterfaces();
+        //@SuppressWarnings("rawtypes")
+		Class<?> [] interfaces = c.getInterfaces();
         String s = "";
         for (Class<?> iface : interfaces) {
             if (s != "")

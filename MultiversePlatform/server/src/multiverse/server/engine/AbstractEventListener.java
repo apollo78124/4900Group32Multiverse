@@ -36,6 +36,11 @@ import java.rmi.server.*;
 @SuppressWarnings("serial")
 public abstract class AbstractEventListener extends UnicastRemoteObject implements MVEventListener {
 
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public AbstractEventListener() throws RemoteException {
 	super();
     }

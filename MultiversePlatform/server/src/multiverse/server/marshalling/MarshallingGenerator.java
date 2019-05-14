@@ -248,8 +248,8 @@ public class MarshallingGenerator extends MarshallingRuntime {
         // Verify that every type for which we need to generate code
         // is in the maps.  Do it in a goofy, unordered way, since it
         // doesn't actually matter.
-        @SuppressWarnings("rawtypes")
-		Map<Class, LinkedList<Class>> missingTypes = new HashMap<Class, LinkedList<Class>>();
+        //@SuppressWarnings("rawtypes")
+		Map<Class<?>, LinkedList<Class<?>>> missingTypes = new HashMap<Class<?>, LinkedList<Class<?>>>();
         for (Map.Entry<String, ClassProperties> entry : classToClassProperties.entrySet()) {
             String className = entry.getKey();
             Class<?> c = lookupClass(className);
@@ -266,10 +266,10 @@ public class MarshallingGenerator extends MarshallingRuntime {
             }
         }
         if (missingTypes.size() > 0) {
-            for (@SuppressWarnings("rawtypes") Map.Entry<Class, LinkedList<Class>> entry : missingTypes.entrySet()) {
+            for (Map.Entry<Class<?>, LinkedList<Class<?>>> entry : missingTypes.entrySet()) {
                 Class<?> c = entry.getKey();
-                @SuppressWarnings("rawtypes")
-				LinkedList<Class> refs = entry.getValue();
+                
+				LinkedList<Class<?>> refs = entry.getValue();
                 String s = "";
                 for (Class<?> ref : refs) {
                     if (s != "")
@@ -451,14 +451,14 @@ public class MarshallingGenerator extends MarshallingRuntime {
             // It's a composite entity, so call the marshalling code
             return "me." + fieldName + " = MarshallingRuntime.marshallers[" + fieldTypeNum + "].parseBytes(buf)";
     }
-    @SuppressWarnings("rawtypes") 
+    
     protected static void checkClassPresent(Class<?> referringClass, Class<?> referredClass,
-                                            Map<Class, LinkedList<Class>> missingTypes) {
+                                            Map<Class<?>, LinkedList<Class<?>>> missingTypes) {
         Short s = getTypeNumForClass(referredClass);
         if (s == null) {
-            LinkedList<Class> references = missingTypes.get(referredClass);
+            LinkedList<Class<?>> references = missingTypes.get(referredClass);
             if (references == null) {
-                references = new LinkedList<Class>();
+                references = new LinkedList<Class<?>>();
                 missingTypes.put(referredClass, references);
             }
             if (!references.contains(referringClass))
@@ -494,9 +494,9 @@ public class MarshallingGenerator extends MarshallingRuntime {
         return (f.getModifiers() & (Modifier.STATIC | Modifier.TRANSIENT)) != 0;
     }
 
-    @SuppressWarnings("rawtypes")
-	protected static Class getValidSuperclass(@SuppressWarnings("rawtypes") Class c) {
-        Class superclass = c.getSuperclass();
+    
+	protected static Class<?> getValidSuperclass(Class<?> c) {
+        Class<?> superclass = c.getSuperclass();
         if (superclass != null &&
             (superclass.getModifiers() & Modifier.INTERFACE) == 0 &&
             !getSimpleClassName(superclass).equals("Object"))
@@ -505,7 +505,7 @@ public class MarshallingGenerator extends MarshallingRuntime {
             return null;
     }
     
-    protected static LinkedList<Field> getValidClassFields(@SuppressWarnings("rawtypes") Class c) {
+    protected static LinkedList<Field> getValidClassFields(Class<?> c) {
         LinkedList<Field> validFields = new LinkedList<Field>();
         Field[]  fields = c.getDeclaredFields();
         for (Field f : fields) {
@@ -515,13 +515,13 @@ public class MarshallingGenerator extends MarshallingRuntime {
         return validFields;
     }
     
-    @SuppressWarnings("rawtypes")
-	protected static Class getFieldType(Field f) {
+    
+	protected static Class<?> getFieldType(Field f) {
         return canonicalType(f.getType());
     }
             
-    @SuppressWarnings("rawtypes")
-    protected static Class canonicalType(Class c) {
+    
+    protected static Class<?> canonicalType(Class<?> c) {
         String s = c.getSimpleName();
         if (s.equals("List"))
             return linkedListClass;
@@ -533,23 +533,23 @@ public class MarshallingGenerator extends MarshallingRuntime {
             return c;
     }
     
-    @SuppressWarnings("rawtypes")
-    protected static boolean typeIsPrimitive(Class c) {
+    
+    protected static boolean typeIsPrimitive(Class<?> c) {
         return c.isPrimitive();
     }
     
-    @SuppressWarnings("rawtypes")
-    protected static boolean isStringType(Class c) {
+    
+    protected static boolean isStringType(Class<?> c) {
         return c.getSimpleName().equals("String");
     }
     
-    @SuppressWarnings("rawtypes")
-    protected static String getSimpleClassName(Class c) {
+    
+    protected static String getSimpleClassName(Class<?> c) {
         return c.getSimpleName();
     }
     
-    @SuppressWarnings("rawtypes")
-    protected static Class lookupClass(String className) {
+    
+    protected static Class<?> lookupClass(String className) {
         try {
             return Class.forName(className);
         }
@@ -605,12 +605,12 @@ public class MarshallingGenerator extends MarshallingRuntime {
     protected static HashMap<Short, String> writeOps = null;
 
     // Remember the classes for the aggregators
-    @SuppressWarnings("rawtypes")
-    protected static Class linkedListClass = null;
-    @SuppressWarnings("rawtypes")
-    protected static Class hashMapClass = null;
-    @SuppressWarnings("rawtypes")
-    protected static Class hashSetClass = null;
+    
+    protected static Class<?> linkedListClass = null;
+    
+    protected static Class<?> hashMapClass = null;
+    
+    protected static Class<?> hashSetClass = null;
     
     /**
      * A test class with all the cases in it

@@ -624,8 +624,8 @@ public class MarshallingRuntime {
     protected static void addMarshaller(Class<?> c, Short typeNum) {
         if (marshallers.length <= typeNum) {
             int newSize = typeNum + 256;
-            @SuppressWarnings("rawtypes")
-			Class [] newMarshallers = new Class[newSize];
+            //@SuppressWarnings("rawtypes")
+			Class<?> [] newMarshallers = new Class[newSize];
             for (int i=0; i<marshallers.length; i++)
                 newMarshallers[i] = marshallers[i];
             marshallers = newMarshallers;
@@ -1042,8 +1042,8 @@ public class MarshallingRuntime {
     /**
      * The map from typeNum to the classes of the object for which we've generated marshalling code
      */
-    @SuppressWarnings("rawtypes")
-	protected static Class[] marshallers;
+    //@SuppressWarnings("rawtypes")
+	protected static Class<?>[] marshallers;
     
     protected static boolean predefinedTypesInstalled = false;
 

@@ -40,6 +40,11 @@ import multiverse.msgsys.*;
 public abstract class Behavior implements MessageCallback, MessageDispatch,
     java.io.Serializable
 {
+    /**
+     * 
+     */
+    private static final long serialVersionUID = 1L;
+
     public Behavior() {
         super();
         setupTransient();
