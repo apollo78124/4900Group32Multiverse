@@ -103,7 +103,8 @@ public class SecureTokenManager {
      * the valid flag set to false.
      *
      */
-    public SecureToken importToken(byte[] encodedToken) {
+    @SuppressWarnings({ "rawtypes", "unchecked" })
+	public SecureToken importToken(byte[] encodedToken) {
         MVByteBuffer buf = new MVByteBuffer(encodedToken);
         byte version = 0;
         byte type = 0;
@@ -127,8 +128,8 @@ public class SecureTokenManager {
             tokenId = buf.getLong();
             keyId = buf.getLong();
             expiry = buf.getLong();
-            //@Suppress
-            properties = (TreeMap<String, Serializable>) buf.getEncodedObject();
+
+            properties = (TreeMap) buf.getEncodedObject();
             authedLength = buf.position();
             authenticator = new byte[buf.remaining()];
             buf.getBytes(authenticator, 0, authenticator.length);
