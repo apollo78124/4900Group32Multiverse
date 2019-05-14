@@ -92,8 +92,8 @@ public class SearchManager
             searchMessage = message;
         }
         
-        @SuppressWarnings("rawtypes")
-		public Collection getResults()
+        
+		public Collection<?> getResults()
         {
             int expectedResponses = Engine.getAgent().sendBroadcastRPC(searchMessage, this);
             synchronized (this) {

@@ -2670,6 +2670,10 @@ public class WorldManagerClient {
     @SuppressWarnings("serial")
 	abstract public static class MobPathMessageBaseClass extends SubjectMessage /* implements ClientMessage */ {
 
+        /**
+         * 
+         */
+        private static final long serialVersionUID = 1L;
         abstract protected MessageType getMobPathMsgType();
         abstract protected String getMobPathMsgTypeTitle();
 

@@ -1217,10 +1217,9 @@ public class Engine
         if (cl.getName().equals(name)) {
             return cl;
         }
-        @SuppressWarnings("rawtypes")
-		Class[] interfaces = cl.getInterfaces();
+        //@SuppressWarnings("rawtypes")
+		Class<?>[] interfaces = cl.getInterfaces();
         for (int ii = 0; ii < interfaces.length; ii++) {
-            @SuppressWarnings("unchecked")
 			Class<?> match = getParentInterface(interfaces[ii],name);
             if (match != null)
                 return match;

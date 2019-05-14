@@ -153,15 +153,15 @@ public class EventServer {
     // maps from an event id to the event class
     // used when servers gets a msg and needs to look up what event to
     // deserialize it with
-    @SuppressWarnings("rawtypes")
-	private Map<Integer, Class> eventIdMapping = new HashMap<Integer,Class>();
+    //@SuppressWarnings("rawtypes")
+	private Map<Integer, Class<?>> eventIdMapping = new HashMap<Integer,Class<?>>();
 
     // maps the reverse - from the event class to the id, so that
     // the event.toBytes() method knows what id it should use when
     // making the byte buffer
-    @SuppressWarnings("rawtypes")
-	private Map<Class, Integer> eventClassMapping = 
-	new HashMap<Class,Integer>();
+    //@SuppressWarnings("rawtypes")
+	private Map<Class<?>, Integer> eventClassMapping = 
+	new HashMap<Class<?>,Integer>();
 
     transient Lock lock = LockFactory.makeLock("EventServerLock");
 
