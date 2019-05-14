@@ -127,6 +127,7 @@ public class SecureTokenManager {
             tokenId = buf.getLong();
             keyId = buf.getLong();
             expiry = buf.getLong();
+            //@Suppress
             properties = (TreeMap<String, Serializable>) buf.getEncodedObject();
             authedLength = buf.position();
             authenticator = new byte[buf.remaining()];

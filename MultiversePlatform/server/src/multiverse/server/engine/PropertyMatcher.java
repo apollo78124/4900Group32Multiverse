@@ -49,7 +49,7 @@ public class PropertyMatcher implements Matcher
                 return false;
         }
 
-        @SuppressWarnings({ "rawtypes", "unchecked" })
+        //@SuppressWarnings({ "rawtypes", "unchecked" })
 		Set<Map.Entry> entrySet = (Set<Map.Entry>) queryProps.entrySet();
 		for (Map.Entry<?,?> queryProp : entrySet) {
             Object queryKey = queryProp.getKey();
