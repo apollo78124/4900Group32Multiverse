@@ -2667,7 +2667,8 @@ public class WorldManagerClient {
 
 
     // A base class for MobPathReqMessage and MobPathMessage
-    abstract public static class MobPathMessageBaseClass extends SubjectMessage /* implements ClientMessage */ {
+    @SuppressWarnings("serial")
+	abstract public static class MobPathMessageBaseClass extends SubjectMessage /* implements ClientMessage */ {
 
         abstract protected MessageType getMobPathMsgType();
         abstract protected String getMobPathMsgTypeTitle();

@@ -284,7 +284,8 @@ public class CombatClient {
             public long getEndTime() { return endTime; }
             public void setEndTime(long endTime) { this.endTime = endTime; }
             protected long endTime;
-            private static final long serialVersionUID = 1L;
+            @SuppressWarnings("unused")
+			private static final long serialVersionUID = 1L;
         }
 
         private static final long serialVersionUID = 1L;
