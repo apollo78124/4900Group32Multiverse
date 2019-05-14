@@ -40,25 +40,25 @@ public class PropertySearch implements SearchClause
     {
     }
 
-    public PropertySearch(Map queryProps)
+    public PropertySearch(Map<?, ?> queryProps)
     {
         setProperties(queryProps);
     }
 
     /** Get the property match criteria.
     */
-    public Map getProperties()
+    public Map<?, ?> getProperties()
     {
         return queryProps;
     }
 
     /** Set the property match criteria.
     */
-    public void setProperties(Map queryProps)
+    public void setProperties(Map<?, ?> queryProps)
     {
         this.queryProps = queryProps;
     }
 
-    private Map queryProps;
+    private Map<?, ?> queryProps;
 }
 
