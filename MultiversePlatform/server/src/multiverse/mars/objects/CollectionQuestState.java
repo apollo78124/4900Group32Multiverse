@@ -667,5 +667,6 @@ public class CollectionQuestState extends QuestState
 
     List<CollectionGoalStatus> goalsStatus = new LinkedList<CollectionGoalStatus>();
     List<String> deliveryItems = new LinkedList<String>();
-    private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 }

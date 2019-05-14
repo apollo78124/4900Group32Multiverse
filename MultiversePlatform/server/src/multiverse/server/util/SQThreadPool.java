@@ -33,8 +33,9 @@ public class SQThreadPool implements Runnable {
     static final int MIN_THREADS = 8;
     static final int MAX_THREADS = 40;
     static final int MIN_RUN_TIME = 15000;  // 5 seconds
-
-    public SQThreadPool(SquareQueue sq, SQCallback callback) {
+    
+    @SuppressWarnings("rawtypes")
+    public SQThreadPool(SquareQueue sq,  SQCallback callback) {
 	this.sq = sq;
 	this.callback = callback;
 
@@ -107,13 +108,15 @@ public class SQThreadPool implements Runnable {
 	    return false;
     }
 
-    public void run() {
+    @SuppressWarnings("unchecked")
+	public void run() {
         if (Log.loggingInfo)
             Log.info("SQ-"+sq.getName()+": Started new thread");
         String title = "SQThreadPool " + sq.getName();
 	selfPool.set(this);
 	threadStatus.set(new ThreadStatus(STATUS_NORMAL));
-        SquareQueue.SubQueue pq = null;
+        @SuppressWarnings("rawtypes")
+		SquareQueue.SubQueue pq = null;
 	long startTime = System.currentTimeMillis();
 
         while (true) {
@@ -170,12 +173,15 @@ public class SQThreadPool implements Runnable {
 	}
     }
 
-    public SquareQueue getSquareQueue() {
+    @SuppressWarnings("rawtypes")
+	public SquareQueue getSquareQueue() {
 	return sq;
     }
 
-    protected SquareQueue sq;
-    protected SQCallback callback;
+    @SuppressWarnings("rawtypes")
+	protected SquareQueue sq;
+    @SuppressWarnings("rawtypes")
+	protected SQCallback callback;
 
     protected int total = 0;
     protected int running = 0;

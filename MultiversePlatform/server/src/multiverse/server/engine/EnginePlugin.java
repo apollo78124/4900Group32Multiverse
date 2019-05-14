@@ -352,7 +352,8 @@ public class EnginePlugin implements MessageCallback, StatusMapCallback {
             return true;
         }
 
-        private static final long serialVersionUID = 1L;
+        @SuppressWarnings("unused")
+		private static final long serialVersionUID = 1L;
     }
 
     class DumpAllStacksMessageHook implements Hook {

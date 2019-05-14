@@ -887,9 +887,11 @@ public class SimpleClient implements ClientConnection.MessageCallback {
         else {
             Log.info("MasterServer login succeeded");
         }
-        if (status == 0)
+        if (status == 0) {
+        	socket.close();
             return -1;
-
+        }
+        socket.close();
         return uid;
     }
 
@@ -992,6 +994,7 @@ public class SimpleClient implements ClientConnection.MessageCallback {
 
             int msgCode = message.getInt();
             if (msgCode != LoginPlugin.MSGCODE_CHARACTER_RESPONSE) {
+            	socket.close();
                 throw new RuntimeException("SimpleClient.getCharacters: unexpected message code"+msgCode);
             }
 
@@ -1113,6 +1116,7 @@ public class SimpleClient implements ClientConnection.MessageCallback {
 
                 msgCode = message.getInt();
                 if (msgCode != LoginPlugin.MSGCODE_CHARACTER_SELECT_RESPONSE) {
+                	socket.close();
                     throw new RuntimeException("SimpleClient.getCharacters: unexpected message code"+msgCode);
                 }
 
