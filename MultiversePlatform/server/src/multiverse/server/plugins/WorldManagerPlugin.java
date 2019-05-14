@@ -3123,7 +3123,8 @@ public abstract class WorldManagerPlugin
             return false;
         }
         
-        public boolean matchesMap(Map propMap, Message msg) {
+        @SuppressWarnings("rawtypes")
+		public boolean matchesMap(Map propMap, Message msg) {
             Point loc = (Point) propMap.get(WorldManagerClient.MSG_PROP_LOC);
             if (loc == null) {
                 Log.debug("WorldManagerTransferFilter.matchesMap: no loc, msg=" + msg);
@@ -3134,7 +3135,8 @@ public abstract class WorldManagerPlugin
         
         List<Geometry> geoList = new LinkedList<Geometry>();
         
-        private static final long serialVersionUID = 1L;
+        @SuppressWarnings("unused")
+		private static final long serialVersionUID = 1L;
     }
     
     public static class PathObjectCache {

@@ -154,14 +154,17 @@ public class MeterManager
     }
                 
     protected void SaveToFileInternal(String pathname)
-    {
+    {	
+    	
         try {
-        FileWriter writer = new FileWriter(pathname);
+        	FileWriter writer = new FileWriter(pathname);
         writer.write(String.format("MeterCount=%1$d\n", metersById.size()));
         for (TimingMeter meter : instance.metersById.values()) {
             writer.write(String.format("%1$s,%2$s,%3$d\n", meter.title, meter.category, meter.meterId));
         }
+        writer.close();
         } catch (IOException e) {}
+        
     }
                 
     protected String IndentCount(int count)

@@ -36,6 +36,7 @@ import multiverse.server.objects.*;
 import multiverse.server.util.*;
 import multiverse.msgsys.*;
 
+@SuppressWarnings("serial")
 public abstract class Behavior implements MessageCallback, MessageDispatch,
     java.io.Serializable
 {

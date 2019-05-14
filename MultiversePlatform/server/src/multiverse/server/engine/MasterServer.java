@@ -484,7 +484,8 @@ public class MasterServer implements ClientConnection.AcceptCallback, ClientConn
 
             // start up the server socket
             Log.info("masterserver: tcp on port " + ms.getTCPPort());
-            ServerSocket socket = new ServerSocket(ms.getTCPPort());
+            @SuppressWarnings("resource")
+			ServerSocket socket = new ServerSocket(ms.getTCPPort());
             if (Log.loggingDebug)
                 Log.debug("masterserver: tcp server listening on port "
                           + ms.getTCPPort());

@@ -143,5 +143,6 @@ public class MessageTypeSessionIdFilter extends MessageTypeFilter {
     String targetSessionId = null;
     boolean matchesNullSessionId = false;
 
-    private static final long serialVersionUID = 1L;
+    @SuppressWarnings("unused")
+	private static final long serialVersionUID = 1L;
 }

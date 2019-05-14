@@ -446,7 +446,8 @@ public class ProxyPlugin extends EnginePlugin
          * message SquareQueue by player oid for processing in order
          * and return.
          */
-        public void handleMessage(Message message, int flags)
+        @SuppressWarnings("unused")
+		public void handleMessage(Message message, int flags)
         {
             List<Player> perceivers;
             if (message instanceof TargetMessage) {
@@ -1866,7 +1867,8 @@ public class ProxyPlugin extends EnginePlugin
      * parser found there against the event, creating a Message
      * instance, and broadcasts the Message.
      */
-    protected void processCommand(ClientConnection con, CommandEvent event) {
+    @SuppressWarnings("null")
+	protected void processCommand(ClientConnection con, CommandEvent event) {
         /* Player player = */ verifyPlayer("processCommand", event, con);
 
         String cmd = event.getCommand().split(" ")[0];
@@ -2454,7 +2456,8 @@ public class ProxyPlugin extends EnginePlugin
             
         if (objType.equals(WorldManagerClient.TEMPL_OBJECT_TYPE_POINT_SOUND)) {
             Log.debug("specialCaseNewProcessing: got a point sound object");
-            List<SoundData> soundData =
+            @SuppressWarnings("unchecked")
+			List<SoundData> soundData =
                 (List<SoundData>) EnginePlugin.getObjectProperty(objOid, Namespace.WORLD_MANAGER, WorldManagerClient.TEMPL_SOUND_DATA_LIST);
             if (Log.loggingDebug)
                 Log.debug("specialCaseNewProcessing: sound data=" + soundData);
@@ -2834,8 +2837,10 @@ if (player.getOid() == World.DEBUG_OID)
             List<Object> matchLists = Engine.getDatabase().getOidsAndNamesMatchingName(playerName, match);
             TargetedExtensionMessage response = new TargetedExtensionMessage("player_ignore_list", player.getOid());
             response.setSubject(player.getOid());
-            List<Long> oids = (List<Long>)matchLists.get(0);
-            List<String> names = (List<String>)matchLists.get(1);
+            @SuppressWarnings("unchecked")
+			List<Long> oids = (List<Long>)matchLists.get(0);
+            @SuppressWarnings("unchecked")
+			List<String> names = (List<String>)matchLists.get(1);
             response.setProperty("ignored_oids", (Serializable)oids);
             response.setProperty("ignored_player_names", (Serializable)names);
             if (Log.loggingDebug)

@@ -79,6 +79,7 @@ public class PropertyMatcher implements Matcher
         }
     }
 
-    private Map queryProps;
+    @SuppressWarnings("rawtypes")
+	private Map queryProps;
 }
 

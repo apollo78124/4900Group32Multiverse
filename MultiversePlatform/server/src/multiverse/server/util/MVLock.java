@@ -43,6 +43,7 @@ import multiverse.server.util.MVLock.LStack;
  *
  * you can get the lock's stack by calling getStack()
  */
+@SuppressWarnings("unused")
 public class MVLock extends ReentrantLock {
     public MVLock(String name) {
 	super();

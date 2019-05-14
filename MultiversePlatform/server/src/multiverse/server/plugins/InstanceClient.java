@@ -214,7 +214,8 @@ public class InstanceClient
         selected instance is undefined.
         @return Oid on success, null on failure or unknown name.
     */
-    public static Long getInstanceOid(String instanceName)
+    @SuppressWarnings("null")
+	public static Long getInstanceOid(String instanceName)
     {
         GetInstanceInfoMessage message =
             new GetInstanceInfoMessage(instanceName,
