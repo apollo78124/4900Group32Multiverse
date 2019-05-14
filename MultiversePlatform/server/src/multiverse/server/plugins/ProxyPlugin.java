@@ -1259,7 +1259,7 @@ public class ProxyPlugin extends EnginePlugin
     protected boolean loadPlayerObject(Player player)
     {
         InstanceRestorePoint restorePoint = null;
-        LinkedList restoreStack = null;
+        LinkedList<?> restoreStack = null;
         boolean first = true;
         long playerOid = player.getOid();
 
@@ -1322,7 +1322,7 @@ public class ProxyPlugin extends EnginePlugin
                 return false;
 
             // Get the instance restore stack
-            restoreStack = (LinkedList) EnginePlugin.getObjectProperty(
+            restoreStack = (LinkedList<?>) EnginePlugin.getObjectProperty(
                 playerOid, Namespace.OBJECT_MANAGER,
                 ObjectManagerClient.TEMPL_INSTANCE_RESTORE_STACK);
 
@@ -3191,7 +3191,7 @@ if (player.getOid() == World.DEBUG_OID)
     static class InstanceEntryState {
         int step = 1;
         InstanceInfo instanceInfo;
-        LinkedList restoreStack;
+        LinkedList<?> restoreStack;
         BasicWorldNode previousLoc;
     }
 

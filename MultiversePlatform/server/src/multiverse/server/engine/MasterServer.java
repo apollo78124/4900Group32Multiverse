@@ -228,7 +228,8 @@ public class MasterServer implements ClientConnection.AcceptCallback, ClientConn
             }
         }
 
-        private void handleAuth(DataInputStream in, DataOutputStream out) throws IOException {
+        @SuppressWarnings("unused")
+		private void handleAuth(DataInputStream in, DataOutputStream out) throws IOException {
             int magicCookie = in.readInt();
             int version = in.readInt();
             Log.debug("cookie=" + magicCookie + " version=" + version);
@@ -290,8 +291,7 @@ public class MasterServer implements ClientConnection.AcceptCallback, ClientConn
                 // write token
                 if (masterToken == null) {
                     Log.debug("null token");
-                }
-                else {
+                } else {
                     Log.debug("tokenLen=" + masterToken.length + " token=" + Base64.encodeBytes(masterToken));
                 }
                 out.writeInt(masterToken.length);

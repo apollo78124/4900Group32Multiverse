@@ -202,8 +202,8 @@ public class Log {
 	// is missing)
 	org.apache.log4j.Logger rootLogger;
 	rootLogger = org.apache.log4j.Logger.getRootLogger();
-	Enumeration rootAppenders = rootLogger.getAllAppenders();
-	Enumeration ourAppenders = logger.getAllAppenders();
+	Enumeration<?> rootAppenders = rootLogger.getAllAppenders();
+	Enumeration<?> ourAppenders = logger.getAllAppenders();
 	boolean rootEmpty = ! rootAppenders.hasMoreElements();
 	boolean ourEmpty = ! ourAppenders.hasMoreElements();
 	if (rootEmpty && ourEmpty)  {
@@ -232,7 +232,7 @@ System.out.println("setting filter on ERRORS");
     }
 
     private static void rotateLogs() {
-	Enumeration appenders = org.apache.log4j.Logger.getRootLogger().getAllAppenders();
+	Enumeration<?> appenders = org.apache.log4j.Logger.getRootLogger().getAllAppenders();
 	while (appenders.hasMoreElements()) {
 	    org.apache.log4j.Appender a = (org.apache.log4j.Appender)appenders.nextElement();
 	    if (a instanceof org.apache.log4j.RollingFileAppender &&
