@@ -62,12 +62,13 @@ public class TestClass9 implements Marshallable {
             MarshallingRuntime.marshalHashSet(buf, objectSet);
     }
 
-    public Object unmarshalObject(MVByteBuffer buf) {
+    @SuppressWarnings("unchecked")
+	public Object unmarshalObject(MVByteBuffer buf) {
         byte flags = buf.getByte();
         if ((flags & 1) != 0)
             intList = (LinkedList<Integer>)MarshallingRuntime.unmarshalLinkedList(buf);
         if ((flags & 2) != 0)
-            propMap = (HashMap<String,Object>)MarshallingRuntime.unmarshalHashMap(buf);
+            propMap = (HashMap<String, Object>)MarshallingRuntime.unmarshalHashMap(buf);
         if ((flags & 4) != 0)
             objectSet = (HashSet<Object>)MarshallingRuntime.unmarshalHashSet(buf);
         return this;
