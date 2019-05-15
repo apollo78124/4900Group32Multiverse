@@ -3,209 +3,212 @@
         builds all multiverse server components
     </description>
 
-  <presetdef name="javac">
-    <javac includeantruntime="false" />
-  </presetdef>
-  <!-- set global properties for this build -->
-  <property name="src" location="src"/>
-  <property name="build" location="build"/>
-  <property name="inject" location="inject"/>
-  <property name="dist" location="dist"/>
-  <property name="bin" location="bin"/>
-  <property name="dist-external"  location="dist-external"/>
-  <property name="build.fork"  value="yes"/>
+    <presetdef name="javac">
+        <javac includeantruntime="false" />
+    </presetdef>
+    <!-- set global properties for this build -->
+    <property name="src" location="src"/>
+    <property name="build" location="build"/>
+    <property name="inject" location="inject"/>
+    <property name="dist" location="dist"/>
+    <property name="bin" location="bin"/>
+    <property name="dist-external"  location="dist-external"/>
+    <property name="build.fork"  value="yes"/>
+    
+    <path id="build.classpath">
+        <pathelement path="other/rhino1_5R5/js.jar"/>
+        <pathelement path="other/mysql-jdbc/mysql-connector-java-3.0.14-production-bin.jar"/>
+        <pathelement path="other/java-getopt-1.0.11.jar"/>
+        <pathelement path="other/jython.jar"/>
+        <pathelement path="other/log4j-1.2.14.jar"/>
+        <pathelement path="other/bcel-5.2.jar"/>
+        <pathelement path="other/servlet-api.jar"/>
+        <pathelement path="other/jsp-api.jar"/>
+        <pathelement path="other/tools.jar"/>
+    </path>
 
-  <path id="build.classpath">
-    <pathelement path="other/rhino1_5R5/js.jar"/>
-    <pathelement path="other/mysql-jdbc/mysql-connector-java-3.0.14-production-bin.jar"/>
-    <pathelement path="other/java-getopt-1.0.11.jar"/>
-    <pathelement path="other/jython.jar"/>
-    <pathelement path="other/log4j-1.2.14.jar"/>
-    <pathelement path="other/bcel-5.2.jar"/>
-    <pathelement path="other/servlet-api.jar"/>
-    <pathelement path="other/jsp-api.jar"/>
-	 <pathelement path="other/tools.jar"/>
-  </path>
-
-  <target name="init">
-    <!-- Create the time stamp -->
-    <tstamp/>
-    <!-- Create the build directory structure used by compile -->
-    <mkdir dir="${build}"/>
-    <mkdir dir="${inject}"/>
-    <mkdir dir="${dist}"/>
-    <mkdir dir="${dist-external}"/>
-  </target>
-
-  <target name="compile" depends="init"
+    <target name="init">
+        <!-- Create the time stamp -->
+        <tstamp/>
+        <!-- Create the build directory structure used by compile -->
+        <mkdir dir="${build}"/>
+        <mkdir dir="${inject}"/>
+        <mkdir dir="${dist}"/>
+        <mkdir dir="${dist-external}"/>
+    </target>
+    
+    <target name="compile" depends="init"
         description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}"
-           destdir="${build}"
-           excludes="multiverse/webapps/**,multiverse/testclient/**,multiverse/**/eventhandlers/**,**/QuestStatusChanged.java"
-           listfiles="yes"
-	   compiler="modern"
-	   fork="${build.fork}"
-	   classpathref="build.classpath"
-           debug="true">
-<!--      <compilerarg value="-Xlint"/> -->
-    </javac>
-    <!-- <rmic classname="multiverse.server.engine.GroupManagerImpl" base="${build}"/> -->
-  </target>
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src}"
+            destdir="${build}"
+            excludes="multiverse/webapps/**,multiverse/testclient/**,multiverse/**/eventhandlers/**,**/QuestStatusChanged.java"
+            listfiles="yes"
+            compiler="modern"
+            fork="${build.fork}"
+            classpathref="build.classpath"
+            debug="true">
+        <!-- <compilerarg value="-Xlint"/> -->
+        </javac>
+        <!-- <rmic classname="multiverse.server.engine.GroupManagerImpl" base="${build}"/> -->
+    </target>
 
-  <target name="testclient" depends="init"
+    <target name="testclient" depends="init"
         description="compile the source " >
-    <!-- Compile the java code from ${src} into ${build} -->
-    <javac srcdir="${src}"
-           destdir="${build}"
-           excludes="multiverse/webapps/**"
-           listfiles="yes"
-	   compiler="modern"
-	   fork="${build.fork}"
-	   classpathref="build.classpath"
-           debug="false">
-      <compilerarg value=""/>
-    </javac>
-  </target>
+        <!-- Compile the java code from ${src} into ${build} -->
+        <javac srcdir="${src}"
+            destdir="${build}"
+            excludes="multiverse/webapps/**"
+            listfiles="yes"
+            compiler="modern"
+            fork="${build.fork}"
+            classpathref="build.classpath"
+            debug="false">
+            <compilerarg value=""/>
+        </javac>
+    </target>
 
   <target name="webapps" depends="init"
-        description="compile the source " >
+    description="compile the source " >
     <!-- Compile the java code from ${src} into ${build} -->
     <javac srcdir="${src}/multiverse/webapps"
-           destdir="${build}"
-	   fork="${build.fork}"
-           debug="false"/>
+        destdir="${build}"
+        fork="${build.fork}"
+        debug="false"/>
   </target>
 
   <target name="buildjars" depends="compile"
-        description="build jar files" >
+    description="build jar files" >
     <!-- Create the distribution directory -->
     <mkdir dir="${dist}/lib"/>
     <mkdir dir="${dist-external}/multiverse/dist/lib"/>
 
     <!-- Put everything in ${build} into the MyProject-${DSTAMP}.jar file -->
-<!--
+    <!--
     <jar jarfile="${dist}/lib/multiverse.jar"
-         basedir="${build}"/>
--->
+        basedir="${build}"/>
+    -->
 
     <jar destfile="${dist}/lib/multiverse.jar"
-       basedir="${build}/"
-	   update="true"
-       includes="multiverse/**"
-       excludes="multiverse/mars/**,multiverse/example/**"
+        basedir="${build}/"
+        update="true"
+        includes="multiverse/**"
+        excludes="multiverse/mars/**,multiverse/example/**"
     />
 
     <jar destfile="${dist}/lib/mars.jar"
-       basedir="${build}/"
-	   update="true"
-       includes="multiverse/mars/**"
+        basedir="${build}/"
+        update="true"
+        includes="multiverse/mars/**"
     />
+    
     <jar destfile="${dist-external}/multiverse/dist/lib/multiverse.jar"
-       basedir="${build}/"
-	   update="true"
-       includes="multiverse/**"
-       excludes="multiverse/mars/**,multiverse/example/**,multiverse/server/engine/JukeboxWebEngine.class,multiverse/server/plugins/JukeboxWebPlugin.class,multiverse/server/engine/JukeboxWebEngineThread.class,multiverse/server/engine/MasterDatabase*.class,multiverse/server/engine/MasterServer*.class"
+        basedir="${build}/"
+        update="true"
+        includes="multiverse/**"
+        excludes="multiverse/mars/**,multiverse/example/**,multiverse/server/engine/JukeboxWebEngine.class,multiverse/server/plugins/JukeboxWebPlugin.class,multiverse/server/engine/JukeboxWebEngineThread.class,multiverse/server/engine/MasterDatabase*.class,multiverse/server/engine/MasterServer*.class"
     />
 
     <jar destfile="${dist-external}/multiverse/dist/lib/mars.jar"
-       basedir="${build}/"
-	   update="true"
-       includes="multiverse/mars/**"
+        basedir="${build}/"
+        update="true"
+        includes="multiverse/mars/**"
     />
+    
     <jar destfile="${dist}/lib/injected.jar"
-      basedir="${build}/"
-	  update="true"
-      includes="multiverse/mars/core/AbilityActivateHook.class, multiverse/mars/core/EquipActivateHook.class, multiverse/mars/objects/CollectionQuestState$CollectionGoalStatus.class, multiverse/mars/objects/CollectionQuestState.class, multiverse/mars/objects/KillQuestState.class, multiverse/mars/objects/MarsAttachSocket.class, multiverse/mars/objects/MarsCollectionQuest$CollectionGoal.class, multiverse/mars/objects/MarsCollectionQuest.class, multiverse/mars/objects/MarsEquipInfo.class, multiverse/mars/objects/MarsEquipSlop.class, multiverse/mars/objects/MarsKillQuest$KillGoal.class, multiverse/mars/objects/MarsKillQuest.class, multiverse/mars/objects/MarsQuest.class, multiverse/mars/objects/MarsStat.class, multiverse/mars/objects/QuestState.class, multiverse/mars/plugins/AnimationClient$InvokeEffectMessage.class, multiverse/mars/plugins/CombatClient$AbilityProgressMessage.class, multiverse/mars/plugins/CombatClient$AbilityUpdateMessage.class, multiverse/mars/plugins/CombatClient$AutoAttackMessage.class, multiverse/mars/plugins/CombatClient$CombatTargetMessage.class, multiverse/mars/plugins/CombatClient$CooldownMessage.class, multiverse/mars/plugins/CombatClient$DamageMessage.class, multiverse/mars/plugins/CombatClient$ReleaseObjectMessage.class, multiverse/mars/plugins/CombatClient$StartAbilityMessage.class, multiverse/mars/plugins/MarsInventoryPlugin$EquipMap.class, multiverse/mars/plugins/QuestClient$ConcludeMessage.class, multiverse/mars/plugins/QuestClient$GetQuestStatusMessage.class, multiverse/mars/plugins/QuestClient$NewQuestStateMessage.class, multiverse/mars/plugins/QuestClient$QuestResponseMessage.class, multiverse/mars/plugins/QuestClient$RequestConcludeMessage.class, multiverse/mars/plugins/QuestClient$RequestQuestInfoMessage.class, multiverse/mars/plugins/QuestClient$StateStatusChangeMessage.class, multiverse/msgsys/AdvertiseMessage.class, multiverse/msgsys/AgentHelloMessage.class, multiverse/msgsys/AgentStateMessage.class, multiverse/msgsys/AllocNameMessage.class, multiverse/msgsys/AllocNameResponseMessage.class, multiverse/msgsys/AwaitPluginDependentsMessage.class, multiverse/msgsys/BooleanResponseMessage.class, multiverse/msgsys/Filter.class, multiverse/msgsys/FilterUpdate$Instruction.class, multiverse/msgsys/FilterUpdate.class, multiverse/msgsys/FilterUpdateMessage.class, multiverse/msgsys/GenericMessage.class, multiverse/msgsys/GenericResponseMessage.class, multiverse/msgsys/HelloResponseMessage.class, multiverse/msgsys/IntegerResponseMessage.class, multiverse/msgsys/LongResponseMessage.class, multiverse/msgsys/Message.class, multiverse/msgsys/MessageTrigger.class, multiverse/msgsys/MessageTypeFilter.class, multiverse/msgsys/MessageTypeSessionIdFilter.class, multiverse/msgsys/NewAgentMessage.class, multiverse/msgsys/PluginAvailableMessage.class, multiverse/msgsys/ResponseMessage.class, multiverse/msgsys/StackFrame.class, multiverse/msgsys/SubjectFilter.class, multiverse/msgsys/SubjectMessage.class, multiverse/msgsys/SubscribeMessage.class, multiverse/msgsys/TargetFilter.class, multiverse/msgsys/TargetMessage.class, multiverse/msgsys/UnsubscribeMessage.class, multiverse/server/engine/BaseBehavior$ArrivedEventMessage.class, multiverse/server/engine/BaseBehavior$FollowCommandMessage.class, multiverse/server/engine/BaseBehavior$GotoCommandMessage.class, multiverse/server/engine/BaseBehavior$StopCommandMessage.class, multiverse/server/engine/BasicWorldNode.class, multiverse/server/engine/Behavior$CommandMessage.class, multiverse/server/engine/Behavior$EventMessage.class, multiverse/server/engine/EnginePlugin$GetPropertyMessage.class, multiverse/server/engine/EnginePlugin$PluginStateMessage.class, multiverse/server/engine/EnginePlugin$SetPropertyMessage.class, multiverse/server/engine/EnginePlugin$TransferFilter.class, multiverse/server/engine/EnginePlugin$TransferObjectMessage.class, multiverse/server/engine/FixedPerceiver.class, multiverse/server/engine/Perceiver.class, multiverse/server/engine/PropertySearch.class, multiverse/server/engine/SearchSelection.class, multiverse/server/engine/TerrainConfig.class, multiverse/server/math/FPoint.class, multiverse/server/math/Geometry.class, multiverse/server/math/MVVector.class, multiverse/server/math/Plane.class, multiverse/server/math/Point.class, multiverse/server/math/Quaternion.class, multiverse/server/messages/LoginMessage.class, multiverse/server/messages/LogoutMessage.class, multiverse/server/messages/NamespaceFilter.class, multiverse/server/messages/NamespaceMessage.class, multiverse/server/messages/OIDNamespaceMessage.class, multiverse/server/messages/PerceptionMessage$ObjectNote.class, multiverse/server/messages/PerceptionMessage.class, multiverse/server/messages/PerceptionTrigger.class, multiverse/server/messages/PopulationFilter.class, multiverse/server/messages/PropertyMessage.class, multiverse/server/messages/SearchMessage.class, multiverse/server/messages/SearchMessageFilter.class, multiverse/server/messages/SubObjectFilter.class, multiverse/server/objects/Bag.class, multiverse/server/objects/BinaryState.class, multiverse/server/objects/Boundary.class, multiverse/server/objects/Color.class, multiverse/server/objects/DirectionalLight.class, multiverse/server/objects/DisplayContext$Submesh.class, multiverse/server/objects/DisplayContext.class, multiverse/server/objects/DisplayState.class, multiverse/server/objects/Entity.class, multiverse/server/objects/EntityHandle.class, multiverse/server/objects/Fog.class, multiverse/server/objects/FogRegionConfig.class, multiverse/server/objects/InstanceRestorePoint.class, multiverse/server/objects/Light.class, multiverse/server/objects/LightData.class, multiverse/server/objects/Marker$Search.class, multiverse/server/objects/Marker.class, multiverse/server/objects/MVObject.class, multiverse/server/objects/NamedPropertyClass.class, multiverse/server/objects/ObjectTracker$NotifyReactionRadiusMessage.class, multiverse/server/objects/ObjState.class, multiverse/server/objects/OceanData.class, multiverse/server/objects/PermissionCallback.class, multiverse/server/objects/PointLight.class, multiverse/server/objects/Region$Search.class, multiverse/server/objects/Region.class, multiverse/server/objects/RegionConfig.class, multiverse/server/objects/Road.class, multiverse/server/objects/RoadRegionConfig.class, multiverse/server/objects/RoadSegment.class, multiverse/server/objects/SearchEntry.class, multiverse/server/objects/SoundData.class, multiverse/server/objects/SoundRegionConfig.class, multiverse/server/objects/SpawnData.class, multiverse/server/objects/Template.class, multiverse/server/objects/TerrainDecalData.class, multiverse/server/objects/Vector2.class, multiverse/server/pathing/PathArc.class, multiverse/server/pathing/PathData.class, multiverse/server/pathing/PathEdge.class, multiverse/server/pathing/PathInfo.class, multiverse/server/pathing/PathObject.class, multiverse/server/pathing/PathObjectType.class, multiverse/server/pathing/PathPolygon.class, multiverse/server/pathing/PathPortal.class, multiverse/server/plugins/InstanceClient$*.class, multiverse/server/plugins/InventoryClient$*.class, multiverse/server/plugins/MobManagerClient$CreateSpawnGeneratorMessage.class, multiverse/server/plugins/ObjectManagerClient$*.class, multiverse/server/plugins/ProxyPlugin$PlayerLoginStatus.class, multiverse/server/plugins/WorldManagerClient$*.class, multiverse/server/plugins/WorldManagerPlugin$*.class,server/util/AnimationCommand.class"
+        basedir="${build}/"
+        update="true"
+        includes="multiverse/mars/core/AbilityActivateHook.class, multiverse/mars/core/EquipActivateHook.class, multiverse/mars/objects/CollectionQuestState$CollectionGoalStatus.class, multiverse/mars/objects/CollectionQuestState.class, multiverse/mars/objects/KillQuestState.class, multiverse/mars/objects/MarsAttachSocket.class, multiverse/mars/objects/MarsCollectionQuest$CollectionGoal.class, multiverse/mars/objects/MarsCollectionQuest.class, multiverse/mars/objects/MarsEquipInfo.class, multiverse/mars/objects/MarsEquipSlop.class, multiverse/mars/objects/MarsKillQuest$KillGoal.class, multiverse/mars/objects/MarsKillQuest.class, multiverse/mars/objects/MarsQuest.class, multiverse/mars/objects/MarsStat.class, multiverse/mars/objects/QuestState.class, multiverse/mars/plugins/AnimationClient$InvokeEffectMessage.class, multiverse/mars/plugins/CombatClient$AbilityProgressMessage.class, multiverse/mars/plugins/CombatClient$AbilityUpdateMessage.class, multiverse/mars/plugins/CombatClient$AutoAttackMessage.class, multiverse/mars/plugins/CombatClient$CombatTargetMessage.class, multiverse/mars/plugins/CombatClient$CooldownMessage.class, multiverse/mars/plugins/CombatClient$DamageMessage.class, multiverse/mars/plugins/CombatClient$ReleaseObjectMessage.class, multiverse/mars/plugins/CombatClient$StartAbilityMessage.class, multiverse/mars/plugins/MarsInventoryPlugin$EquipMap.class, multiverse/mars/plugins/QuestClient$ConcludeMessage.class, multiverse/mars/plugins/QuestClient$GetQuestStatusMessage.class, multiverse/mars/plugins/QuestClient$NewQuestStateMessage.class, multiverse/mars/plugins/QuestClient$QuestResponseMessage.class, multiverse/mars/plugins/QuestClient$RequestConcludeMessage.class, multiverse/mars/plugins/QuestClient$RequestQuestInfoMessage.class, multiverse/mars/plugins/QuestClient$StateStatusChangeMessage.class, multiverse/msgsys/AdvertiseMessage.class, multiverse/msgsys/AgentHelloMessage.class, multiverse/msgsys/AgentStateMessage.class, multiverse/msgsys/AllocNameMessage.class, multiverse/msgsys/AllocNameResponseMessage.class, multiverse/msgsys/AwaitPluginDependentsMessage.class, multiverse/msgsys/BooleanResponseMessage.class, multiverse/msgsys/Filter.class, multiverse/msgsys/FilterUpdate$Instruction.class, multiverse/msgsys/FilterUpdate.class, multiverse/msgsys/FilterUpdateMessage.class, multiverse/msgsys/GenericMessage.class, multiverse/msgsys/GenericResponseMessage.class, multiverse/msgsys/HelloResponseMessage.class, multiverse/msgsys/IntegerResponseMessage.class, multiverse/msgsys/LongResponseMessage.class, multiverse/msgsys/Message.class, multiverse/msgsys/MessageTrigger.class, multiverse/msgsys/MessageTypeFilter.class, multiverse/msgsys/MessageTypeSessionIdFilter.class, multiverse/msgsys/NewAgentMessage.class, multiverse/msgsys/PluginAvailableMessage.class, multiverse/msgsys/ResponseMessage.class, multiverse/msgsys/StackFrame.class, multiverse/msgsys/SubjectFilter.class, multiverse/msgsys/SubjectMessage.class, multiverse/msgsys/SubscribeMessage.class, multiverse/msgsys/TargetFilter.class, multiverse/msgsys/TargetMessage.class, multiverse/msgsys/UnsubscribeMessage.class, multiverse/server/engine/BaseBehavior$ArrivedEventMessage.class, multiverse/server/engine/BaseBehavior$FollowCommandMessage.class, multiverse/server/engine/BaseBehavior$GotoCommandMessage.class, multiverse/server/engine/BaseBehavior$StopCommandMessage.class, multiverse/server/engine/BasicWorldNode.class, multiverse/server/engine/Behavior$CommandMessage.class, multiverse/server/engine/Behavior$EventMessage.class, multiverse/server/engine/EnginePlugin$GetPropertyMessage.class, multiverse/server/engine/EnginePlugin$PluginStateMessage.class, multiverse/server/engine/EnginePlugin$SetPropertyMessage.class, multiverse/server/engine/EnginePlugin$TransferFilter.class, multiverse/server/engine/EnginePlugin$TransferObjectMessage.class, multiverse/server/engine/FixedPerceiver.class, multiverse/server/engine/Perceiver.class, multiverse/server/engine/PropertySearch.class, multiverse/server/engine/SearchSelection.class, multiverse/server/engine/TerrainConfig.class, multiverse/server/math/FPoint.class, multiverse/server/math/Geometry.class, multiverse/server/math/MVVector.class, multiverse/server/math/Plane.class, multiverse/server/math/Point.class, multiverse/server/math/Quaternion.class, multiverse/server/messages/LoginMessage.class, multiverse/server/messages/LogoutMessage.class, multiverse/server/messages/NamespaceFilter.class, multiverse/server/messages/NamespaceMessage.class, multiverse/server/messages/OIDNamespaceMessage.class, multiverse/server/messages/PerceptionMessage$ObjectNote.class, multiverse/server/messages/PerceptionMessage.class, multiverse/server/messages/PerceptionTrigger.class, multiverse/server/messages/PopulationFilter.class, multiverse/server/messages/PropertyMessage.class, multiverse/server/messages/SearchMessage.class, multiverse/server/messages/SearchMessageFilter.class, multiverse/server/messages/SubObjectFilter.class, multiverse/server/objects/Bag.class, multiverse/server/objects/BinaryState.class, multiverse/server/objects/Boundary.class, multiverse/server/objects/Color.class, multiverse/server/objects/DirectionalLight.class, multiverse/server/objects/DisplayContext$Submesh.class, multiverse/server/objects/DisplayContext.class, multiverse/server/objects/DisplayState.class, multiverse/server/objects/Entity.class, multiverse/server/objects/EntityHandle.class, multiverse/server/objects/Fog.class, multiverse/server/objects/FogRegionConfig.class, multiverse/server/objects/InstanceRestorePoint.class, multiverse/server/objects/Light.class, multiverse/server/objects/LightData.class, multiverse/server/objects/Marker$Search.class, multiverse/server/objects/Marker.class, multiverse/server/objects/MVObject.class, multiverse/server/objects/NamedPropertyClass.class, multiverse/server/objects/ObjectTracker$NotifyReactionRadiusMessage.class, multiverse/server/objects/ObjState.class, multiverse/server/objects/OceanData.class, multiverse/server/objects/PermissionCallback.class, multiverse/server/objects/PointLight.class, multiverse/server/objects/Region$Search.class, multiverse/server/objects/Region.class, multiverse/server/objects/RegionConfig.class, multiverse/server/objects/Road.class, multiverse/server/objects/RoadRegionConfig.class, multiverse/server/objects/RoadSegment.class, multiverse/server/objects/SearchEntry.class, multiverse/server/objects/SoundData.class, multiverse/server/objects/SoundRegionConfig.class, multiverse/server/objects/SpawnData.class, multiverse/server/objects/Template.class, multiverse/server/objects/TerrainDecalData.class, multiverse/server/objects/Vector2.class, multiverse/server/pathing/PathArc.class, multiverse/server/pathing/PathData.class, multiverse/server/pathing/PathEdge.class, multiverse/server/pathing/PathInfo.class, multiverse/server/pathing/PathObject.class, multiverse/server/pathing/PathObjectType.class, multiverse/server/pathing/PathPolygon.class, multiverse/server/pathing/PathPortal.class, multiverse/server/plugins/InstanceClient$*.class, multiverse/server/plugins/InventoryClient$*.class, multiverse/server/plugins/MobManagerClient$CreateSpawnGeneratorMessage.class, multiverse/server/plugins/ObjectManagerClient$*.class, multiverse/server/plugins/ProxyPlugin$PlayerLoginStatus.class, multiverse/server/plugins/WorldManagerClient$*.class, multiverse/server/plugins/WorldManagerPlugin$*.class,server/util/AnimationCommand.class"
     />
 
     <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
-      basedir="${build}/"
-	  update="true"
-      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
+        basedir="${build}/"
+        update="true"
+        includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
     />
     <!--commented temporarily?-->
-<!--
+    <!--
     <uptodate property="dont_need_inject" targetfile="${dist}/lib/injected.jar">
-       <srcfiles dir   = "${dist}/lib" includes="m*.jar" />
+        <srcfiles dir   = "${dist}/lib" includes="m*.jar" />
     </uptodate>
--->
+    -->
   </target>
+  
   <target name="dist" depends="buildjars" unless="dont_need_inject"
         description="generate the distribution" >
     <exec dir="${bin}" os="Windows XP" executable="cmd">
-      <arg value="/c"/>
-      <arg value="performinjection.bat"/>
+        <arg value="/c"/>
+        <arg value="performinjection.bat"/>
     </exec>
     <exec dir="${bin}" os="Windows Vista" executable="cmd">
-      <arg value="/c"/>
-      <arg value="performinjection.bat"/>
+        <arg value="/c"/>
+        <arg value="performinjection.bat"/>
     </exec>
     <exec dir="${bin}" os="Linux" executable="bash">
-      <arg value="performinjection.sh"/>
+        <arg value="performinjection.sh"/>
     </exec>
 
     <jar destfile="${dist}/lib/injected.jar"
-      basedir="${build}/"
-      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
+        basedir="${build}/"
+        includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
     />
 
     <jar destfile="${dist-external}/multiverse/dist/lib/injected.jar"
-      basedir="${build}/"
-      includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
+        basedir="${build}/"
+        includes="mars/core/**, mars/objects/**, mars/plugins/**, msgsys/**, server/**"
     />
   </target>
 
-  <target name="tar">
-    <tar destfile="server.tgz" compression="gzip">
-      <tarfileset dir=".." mode="755"
-        includes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script"
-      	excludes="multiverse/bin/keygen.sh,multiverse/bin/master.sh,multiverse/bin/create_account.sh,multiverse/bin/create_character.sh,multiverse/bin/create_default_chars.sh,multiverse/bin/clear_obj_store.sh,multiverse/bin/old-multiverse.sh,multiverse/bin/master_server.py,multiverse/bin/shell.sh,multiverse/bin/domain.sh"
-      />
-      <tarfileset dir=".." mode="644"
-        includes="multiverse/README.txt,multiverse/build_mars.xml,multiverse/licenses/**,multiverse/bin/**,multiverse/install/**,multiverse/config/sampleworld/**,multiverse/config/common/**,multiverse/config/mv_fantasy/**,multiverse/other/**,multiverse/src/multiverse/mars/**/*.java"
-        excludes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script,multiverse/bin/master.sql,multiverse/bin/save.js,multiverse/bin/reset.js,multiverse/bin/sample_bashrc,multiverse/bin/cachedir/**,multiverse/config/mv_social/**,multiverse/other/mysql-jdbc/**,multiverse/**/*~,multiverse/**/*.pid,multiverse/bin/run/**"
-      />
-      <tarfileset dir="dist-external" mode="644"
-        includes="multiverse/dist/**"
-      />
-    </tar>
-  </target>
+    <target name="tar">
+        <tar destfile="server.tgz" compression="gzip">
+        <tarfileset dir=".." mode="755"
+            includes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script"
+            excludes="multiverse/bin/keygen.sh,multiverse/bin/master.sh,multiverse/bin/create_account.sh,multiverse/bin/create_character.sh,multiverse/bin/create_default_chars.sh,multiverse/bin/clear_obj_store.sh,multiverse/bin/old-multiverse.sh,multiverse/bin/master_server.py,multiverse/bin/shell.sh,multiverse/bin/domain.sh"
+        />
+        <tarfileset dir=".." mode="644"
+            includes="multiverse/README.txt,multiverse/build_mars.xml,multiverse/licenses/**,multiverse/bin/**,multiverse/install/**,multiverse/config/sampleworld/**,multiverse/config/common/**,multiverse/config/mv_fantasy/**,multiverse/other/**,multiverse/src/multiverse/mars/**/*.java"
+            excludes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script,multiverse/bin/master.sql,multiverse/bin/save.js,multiverse/bin/reset.js,multiverse/bin/sample_bashrc,multiverse/bin/cachedir/**,multiverse/config/mv_social/**,multiverse/other/mysql-jdbc/**,multiverse/**/*~,multiverse/**/*.pid,multiverse/bin/run/**"
+        />
+        <tarfileset dir="dist-external" mode="644"
+            includes="multiverse/dist/**"
+        />
+        </tar>
+    </target>
 
-  <target name="zip">
-    <zip destfile="server.zip">
-      <zipfileset dir=".." filemode="755"
-        includes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script"
-      	excludes="multiverse/bin/keygen.sh,multiverse/bin/master.sh,multiverse/bin/create_account.sh,multiverse/bin/create_character.sh,multiverse/bin/create_default_chars.sh,multiverse/bin/clear_obj_store.sh,multiverse/bin/old-multiverse.sh,multiverse/bin/master_server.py,multiverse/bin/shell.sh,multiverse/bin/domain.sh"
-      />
-      <zipfileset dir=".." filemode="644"
-        includes="multiverse/README.txt,multiverse/build_mars.xml,multiverse/licenses/**,multiverse/bin/**,multiverse/install/**,multiverse/config/sampleworld/**,multiverse/config/common/**,multiverse/config/mv_fantasy/**,multiverse/other/**,multiverse/src/multiverse/mars/**/*.java"
-        excludes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script,multiverse/bin/master.sql,multiverse/bin/save.js,multiverse/bin/reset.js,multiverse/bin/sample_bashrc,multiverse/bin/cachedir/**,multiverse/config/mv_social/**,multiverse/other/mysql-jdbc/**,multiverse/**/*~,multiverse/**/*.pid,multiverse/bin/run/**"
-      />
-      <zipfileset dir="dist-external" filemode="644"
-        includes="multiverse/dist/**"
-      />
-    </zip>
-  </target>
+    <target name="zip">
+        <zip destfile="server.zip">
+        <zipfileset dir=".." filemode="755"
+            includes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script"
+            excludes="multiverse/bin/keygen.sh,multiverse/bin/master.sh,multiverse/bin/create_account.sh,multiverse/bin/create_character.sh,multiverse/bin/create_default_chars.sh,multiverse/bin/clear_obj_store.sh,multiverse/bin/old-multiverse.sh,multiverse/bin/master_server.py,multiverse/bin/shell.sh,multiverse/bin/domain.sh"
+        />
+        <zipfileset dir=".." filemode="644"
+            includes="multiverse/README.txt,multiverse/build_mars.xml,multiverse/licenses/**,multiverse/bin/**,multiverse/install/**,multiverse/config/sampleworld/**,multiverse/config/common/**,multiverse/config/mv_fantasy/**,multiverse/other/**,multiverse/src/multiverse/mars/**/*.java"
+            excludes="multiverse/bin/*.sh,multiverse/bin/*.py,multiverse/bin/mvm,multiverse/bin/check_mvplugin,multiverse/bin/service_script,multiverse/bin/master.sql,multiverse/bin/save.js,multiverse/bin/reset.js,multiverse/bin/sample_bashrc,multiverse/bin/cachedir/**,multiverse/config/mv_social/**,multiverse/other/mysql-jdbc/**,multiverse/**/*~,multiverse/**/*.pid,multiverse/bin/run/**"
+        />
+        <zipfileset dir="dist-external" filemode="644"
+            includes="multiverse/dist/**"
+        />
+        </zip>
+    </target>
 
-  <target name="clean"
+    <target name="clean"
         description="clean up" >
-    <!-- Delete the ${build} and ${dist} directory trees -->
-    <delete dir="${build}"/>
-    <delete dir="${inject}"/>
-    <delete dir="${dist}"/>
-    <delete dir="${dist-external}"/>
-  </target>
+        <!-- Delete the ${build} and ${dist} directory trees -->
+        <delete dir="${build}"/>
+        <delete dir="${inject}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${dist-external}"/>
+    </target>
 
-  <target name="tags">
-    <delete file="TAGS"/>
-    <apply executable="etags">
-      <arg value="-a"/>
-      <arg value="-oTAGS"/>
-      <arg value="-ljava"/>
-      <fileset dir="${src}" casesensitive="yes">
-        <include name="**/*.java"/>
-      </fileset>
-    </apply>
-  </target>
+    <target name="tags">
+        <delete file="TAGS"/>
+        <apply executable="etags">
+        <arg value="-a"/>
+        <arg value="-oTAGS"/>
+        <arg value="-ljava"/>
+        <fileset dir="${src}" casesensitive="yes">
+            <include name="**/*.java"/>
+        </fileset>
+        </apply>
+    </target>
 </project>
