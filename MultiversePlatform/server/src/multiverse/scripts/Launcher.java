@@ -77,8 +77,11 @@ package multiverse.scripts;
 
 import java.lang.management.ManagementFactory;
 import java.util.*;
+
+import javax.management.MBeanServer;
 import javax.management.ObjectName;
 import multiverse.server.engine.PropertyFileReader;
+
 
 public class Launcher {
 
@@ -91,7 +94,7 @@ public class Launcher {
 
     public int exit() {
         System.runFinalization();
-        /* MBeanServer mbs = */ ManagementFactory.getPlatformMBeanServer();
+        MBeanServer mbs =  ManagementFactory.getPlatformMBeanServer();
         try {
             ObjectName name = new ObjectName("multiverse.server.engine.Launcher:type=Launcher");
             ManagementFactory.getPlatformMBeanServer().unregisterMBean(name);
